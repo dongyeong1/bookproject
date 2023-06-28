@@ -14,12 +14,12 @@ dotenv.config();
 const app = express();
 
 if (process.env.NODE_ENV === "production") {
-    //   app.use(
-    //     cors({
-    //         origin: "http://localhost:3000",
-    //         credentials: true,
-    //     })
-    // );
+    app.use(
+        cors({
+            origin: "http://52.78.32.224",
+            credentials: true,
+        })
+    );
     app.get("/", (req, res) => {
         res.send("production");
     });
