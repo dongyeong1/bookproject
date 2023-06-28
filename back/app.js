@@ -20,6 +20,9 @@ if (process.env.NODE_ENV === "production") {
     //         credentials: true,
     //     })
     // );
+    app.get("/", (req, res) => {
+        res.send("production");
+    });
 } else {
     app.use(
         cors({
@@ -27,6 +30,9 @@ if (process.env.NODE_ENV === "production") {
             credentials: true,
         })
     );
+    app.get("/", (req, res) => {
+        res.send("dev");
+    });
 }
 
 app.use(express.json()); //axios로 데이터보냃때
@@ -49,10 +55,6 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
-
-app.get("/", (req, res) => {
-    res.send("hello");
-});
 
 app.use("/post", postRouter);
 app.use("/user", userRouter);
