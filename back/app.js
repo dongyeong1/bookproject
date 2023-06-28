@@ -13,12 +13,22 @@ dotenv.config();
 
 const app = express();
 
-app.use(
-    cors({
-        origin: "http://localhost:3000",
-        credentials: true,
-    })
-);
+if (process.env.NODE_ENV === "production") {
+    //   app.use(
+    //     cors({
+    //         origin: "http://localhost:3000",
+    //         credentials: true,
+    //     })
+    // );
+} else {
+    app.use(
+        cors({
+            origin: "http://localhost:3000",
+            credentials: true,
+        })
+    );
+}
+
 app.use(express.json()); //axios로 데이터보냃때
 app.use(express.urlencoded({ extended: true })); //일반폼을보낼때
 
@@ -47,6 +57,6 @@ app.get("/", (req, res) => {
 app.use("/post", postRouter);
 app.use("/user", userRouter);
 
-app.listen(3065, () => {
+app.listen(80, () => {
     console.log("서버실행중");
 });
