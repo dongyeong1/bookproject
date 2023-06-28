@@ -16,7 +16,7 @@ const app = express();
 if (process.env.NODE_ENV === "production") {
     app.use(
         cors({
-            origin: "http://52.78.32.224",
+            origin: "http://13.209.99.236",
             credentials: true,
         })
     );
