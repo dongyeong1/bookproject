@@ -479,7 +479,7 @@ function* naverLogin(action) {
 }
 
 function naverTokenLoginAPI(data) {
-    return axios("/user/navertokenlogin", data);
+    return axios.post("/user/navertokenlogin", data);
 }
 
 function* naverTokenLogin(action) {
