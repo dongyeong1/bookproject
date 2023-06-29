@@ -399,7 +399,7 @@ router.post("/booksearch", async (req, res) => {
             headers: {
                 Accept: "application/json",
                 "X-Naver-Client-Id": process.env.BOOK_CLIENT_ID,
-                "X-Naver-Client-Secret": process.env.BOOK_CLIENT_SECERET,
+                "X-Naver-Client-Secret": process.env.BOOK_CLIENT_SECRET,
             },
         }).then((response) => {
             res.status(200).json(response.data);
@@ -428,7 +428,7 @@ router.post("/bookload", async (req, res) => {
             headers: {
                 Accept: "application/json",
                 "X-Naver-Client-Id": process.env.BOOK_CLIENT_ID,
-                "X-Naver-Client-Secret": process.env.BOOK_CLIENT_SECERET,
+                "X-Naver-Client-Secret": process.env.BOOK_CLIENT_SECRET,
             },
         }).then((response) => {
             res.status(200).json(response.data);
