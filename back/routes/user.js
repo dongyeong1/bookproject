@@ -471,7 +471,7 @@ router.post("/navertokenlogin", async (req, res) => {
                             process.env.BOOK_CLIENT_SECERET,
                     })
                     .then((res) => {
-                        console.log("asdsadasdasd", res);
+                        console.log("asdsadasdasd", res.data);
                         res.status(200).json(res);
                         // sessionStorage.setItem(
                         //     "naverlogin-access-token",
@@ -483,7 +483,13 @@ router.post("/navertokenlogin", async (req, res) => {
                         // );
 
                         // res.redirect("/");
+                    })
+                    .catch((err) => {
+                        console.log("twoerererere,err", err);
                     });
+            })
+            .catch((err) => {
+                console.log("ererererere", err);
             });
     } catch (err) {
         console.log(err);
