@@ -456,41 +456,137 @@ router.post("/navertokenlogin", async (req, res) => {
             "&state=" +
             req.body.callback_state;
 
-        await axios
-            .get(api_url, {
-                Accept: "application/json",
-                "X-Naver-Client-Id": process.env.BOOK_CLIENT_ID,
-                "X-Naver-Client-Secret": process.env.BOOK_CLIENT_SECERET,
-            })
-            .then((res) => {
-                axios
-                    .post("http://43.201.65.83/user/naverlogin", res.data, {
-                        Accept: "application/json",
-                        "X-Naver-Client-Id": process.env.BOOK_CLIENT_ID,
-                        "X-Naver-Client-Secret":
-                            process.env.BOOK_CLIENT_SECERET,
-                    })
-                    .then((res) => {
-                        console.log("asdsadasdasd", res.data);
-                        res.status(200).json(res);
-                        // sessionStorage.setItem(
-                        //     "naverlogin-access-token",
-                        //     res.data.access_token
-                        // );
-                        // sessionStorage.setItem(
-                        //     "naverlogin-token-type",
-                        //     res.data.token_type
-                        // );
+        const token = await axios.get(api_url, {
+            Accept: "application/json",
+            "X-Naver-Client-Id": process.env.BOOK_CLIENT_ID,
+            "X-Naver-Client-Secret": process.env.BOOK_CLIENT_SECERET,
+        });
 
-                        // res.redirect("/");
-                    })
-                    .catch((err) => {
-                        console.log("twoerererere,err", err);
-                    });
-            })
-            .catch((err) => {
-                console.log("ererererere", err);
+        // axios
+        //     .post("http://43.201.65.83/user/naverlogin", res.data, {
+        //         Accept: "application/json",
+        //         "X-Naver-Client-Id": process.env.BOOK_CLIENT_ID,
+        //         "X-Naver-Client-Secret":
+        //             process.env.BOOK_CLIENT_SECERET,
+        //     })
+
+        const information = await axios({
+            method: "get",
+            url: "https://openapi.naver.com/v1/nid/me",
+            headers: {
+                Authorization:
+                    token.data.token_type + " " + token.data.access_token,
+            },
+        });
+
+        const exUser = await User.findOne({
+            where: { email: information.data.response.id },
+            attributes: {
+                exclude: ["password"],
+            },
+            order: [[{ model: Post }, "createdAt", "DESC"]],
+            include: [
+                {
+                    model: Post,
+                    include: [
+                        {
+                            model: User,
+                            as: "Likers",
+                            attributes: ["id"],
+                        },
+                    ],
+                },
+                {
+                    model: User,
+                    as: "Followings",
+                    attributes: ["id", "nickname"],
+                },
+                {
+                    model: User,
+                    as: "Followers",
+                    attributes: ["id", "nickname"],
+                },
+                {
+                    model: Post,
+                    as: "Liked",
+                    attributes: ["id"],
+                },
+            ],
+        });
+
+        if (!exUser) {
+            const user = await User.create({
+                nickname: information.data.response.nickname,
+                password: "naverUser",
+                email: information.data.response.id,
             });
+            const exUser = await User.findOne({
+                where: { email: information.data.response.id },
+                attributes: {
+                    exclude: ["password"],
+                },
+                include: [
+                    {
+                        model: Post,
+                        order: [["createdAt", "DESC"]],
+
+                        include: [
+                            {
+                                model: User,
+                                as: "Likers",
+                                attributes: ["id"],
+                            },
+                        ],
+                    },
+                    {
+                        model: User,
+                        as: "Followings",
+                        attributes: ["id", "nickname"],
+                    },
+                    {
+                        model: User,
+                        as: "Followers",
+                        attributes: ["id", "nickname"],
+                    },
+                    {
+                        model: Post,
+                        as: "Liked",
+                        attributes: ["id"],
+                    },
+                ],
+            });
+            res.status(200).json({
+                exUser,
+                token_type: token.data.token_type,
+                access_token: token.data.access_token,
+            });
+        } else {
+            res.status(200).json({
+                exUser,
+                token_type: token.data.token_type,
+                access_token: token.data.access_token,
+            });
+        }
+
+        console.log(res);
+
+        // .then((res) => {
+        //     console.log("asdsadasdasd", res.data);
+        //     res.status(200).json(res);
+        //     // sessionStorage.setItem(
+        //     //     "naverlogin-access-token",
+        //     //     res.data.access_token
+        //     // );
+        //     // sessionStorage.setItem(
+        //     //     "naverlogin-token-type",
+        //     //     res.data.token_type
+        //     // );
+
+        //     // res.redirect("/");
+        // })
+        // .catch((err) => {
+        //     console.log("twoerererere,err", err);
+        // });
     } catch (err) {
         console.log(err);
     }
