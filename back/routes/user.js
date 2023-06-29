@@ -469,7 +469,7 @@ router.post("/navertokenlogin", async (req, res) => {
         //         "X-Naver-Client-Secret":
         //             process.env.BOOK_CLIENT_SECERET,
         //     })
-        console.log(t);
+        // console.log(t);
 
         const information = await axios({
             method: "get",
