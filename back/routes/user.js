@@ -3,11 +3,6 @@ const { User, Post } = require("../models");
 const bcrypt = require("bcrypt");
 const passport = require("passport");
 const axios = require("axios");
-const { instance } = require("../../bookfront/src/sagas");
-const {
-    NAVER_ACCESS_TOKEN,
-    NAVER_TOKEN_TYPE,
-} = require("../../bookfront/src/components/LoginToken");
 
 const router = express.Router();
 
