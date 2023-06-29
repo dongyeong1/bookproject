@@ -8,7 +8,6 @@ const {
     NAVER_ACCESS_TOKEN,
     NAVER_TOKEN_TYPE,
 } = require("../../bookfront/src/components/LoginToken");
-const { redirect } = require("react-router-dom");
 
 const router = express.Router();
 
@@ -486,7 +485,7 @@ router.post("/navertokenlogin", async (req, res) => {
                             res.data.token_type
                         );
 
-                        redirect("/");
+                        res.redirect("/");
                     });
             });
     } catch (err) {
