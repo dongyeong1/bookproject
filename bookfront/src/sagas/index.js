@@ -63,17 +63,18 @@ export const instance = axios.create({
 });
 
 function searchBookAPI(data) {
-    const url = `https://openapi.naver.com/v1/search/book.json?query=${data}&sort=date&start=1&display=100`;
-    const clientId = process.env.REACT_APP_BOOK_CLIENT_ID;
-    const clientSecret = process.env.REACT_APP_BOOK_CLIENT_SECRET;
+    // const url = `https://openapi.naver.com/v1/search/book.json?query=${data}&sort=date&start=1&display=100`;
+    // const clientId = process.env.REACT_APP_BOOK_CLIENT_ID;
+    // const clientSecret = process.env.REACT_APP_BOOK_CLIENT_SECRET;
 
-    return axios.get(url, {
-        headers: {
-            Accept: "application/json",
-            "X-Naver-Client-Id": clientId,
-            "X-Naver-Client-Secret": clientSecret,
-        },
-    });
+    // return axios.get(url, {
+    //     headers: {
+    //         Accept: "application/json",
+    //         "X-Naver-Client-Id": clientId,
+    //         "X-Naver-Client-Secret": clientSecret,
+    //     },
+    // });
+    return instance.post("/user/booksearch", data);
 }
 
 function* searchBook(action) {
