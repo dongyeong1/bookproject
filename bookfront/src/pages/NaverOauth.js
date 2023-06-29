@@ -5,10 +5,11 @@ import { Modal } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 import { NAVER_ACCESS_TOKEN, NAVER_TOKEN_TYPE } from "../components/LoginToken";
 import { instance } from "../sagas";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { NAVER_TOKEN_LOGIN_REQUEST } from "../reducer";
 
 const NaverOauth = () => {
+    const { user } = useSelector((state) => state);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const success = () => {
@@ -34,6 +35,14 @@ const NaverOauth = () => {
             fontSize: 20,
         });
     };
+
+    useEffect(() => {
+        if (user) {
+            Modal.destroyAll();
+            navigate("/");
+            Loginsuccess();
+        }
+    }, [user]);
 
     useEffect(() => {
         success();
