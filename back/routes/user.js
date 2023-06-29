@@ -382,4 +382,31 @@ router.patch("/:userId/unfollow", async (req, res, next) => {
     }
 });
 
+router.post("/booksearch", async (req, res) => {
+    try {
+        // const kakaoinformation = await axios({
+        //     method: "get",
+        //     url: "https://kapi.kakao.com/v2/user/me",
+        //     headers: {
+        //         Authorization: `Bearer ${req.body.access_token}`,
+        //         "Content-Type": "application/x-www-form-urlencoded",
+        //     },
+        // });
+
+        const booksearchresult = await axios({
+            method: "get",
+            url: `https://openapi.naver.com/v1/search/book.json?query=${data}&sort=date&start=1&display=100`,
+            headers: {
+                Accept: "application/json",
+                "X-Naver-Client-Id": "NqCz0y0licjXZjQJ46Wu",
+                "X-Naver-Client-Secret": "1QsSIEHHYS",
+            },
+        });
+
+        res.json(booksearchresult);
+    } catch (err) {
+        console.log(err);
+    }
+});
+
 module.exports = router;
