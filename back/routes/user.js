@@ -456,7 +456,7 @@ router.post("/navertokenlogin", async (req, res) => {
             "&state=" +
             req.body.callback_state;
 
-        const token = axios.get(api_url, {
+        const token = await axios.get(api_url, {
             Accept: "application/json",
             "X-Naver-Client-Id": process.env.NAVER_LOGIN_CLIENT_ID,
             "X-Naver-Client-Secret": process.env.NAVER_LOGIN_CLIENT_SECRET,
@@ -469,6 +469,7 @@ router.post("/navertokenlogin", async (req, res) => {
         //         "X-Naver-Client-Secret":
         //             process.env.BOOK_CLIENT_SECERET,
         //     })
+        console.log(t);
 
         const information = await axios({
             method: "get",
