@@ -393,7 +393,7 @@ router.post("/booksearch", async (req, res) => {
         //     },
         // });
 
-        const booksearchresult = await axios({
+        await axios({
             method: "get",
             url: `https://openapi.naver.com/v1/search/book.json?query=${req.body.data}&sort=date&start=1&display=100`,
             headers: {
@@ -401,9 +401,11 @@ router.post("/booksearch", async (req, res) => {
                 "X-Naver-Client-Id": "NqCz0y0licjXZjQJ46Wu",
                 "X-Naver-Client-Secret": "1QsSIEHHYS",
             },
+        }).then((res) => {
+            console.log(res.data);
         });
 
-        res.json(booksearchresult);
+        // res.json(booksearchresult);
     } catch (err) {
         console.log(err);
     }
