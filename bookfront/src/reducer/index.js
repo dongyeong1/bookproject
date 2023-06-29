@@ -145,7 +145,7 @@ const rootReducer = (state = initState, action) =>
             case NAVER_TOKEN_LOGIN_REQUEST:
                 break;
             case NAVER_TOKEN_LOGIN_SUCCESS:
-                // draft.user = action.data.exUser;
+                draft.user = action.data.exUser;
                 break;
             case NAVER_TOKEN_LOGIN_FAIL:
                 break;
