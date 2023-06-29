@@ -74,7 +74,9 @@ function searchBookAPI(data) {
     //         "X-Naver-Client-Secret": clientSecret,
     //     },
     // });
-    return instance.post("/user/booksearch", data);
+    return instance.post("/user/booksearch", {
+        bookname: data,
+    });
 }
 
 function* searchBook(action) {
