@@ -446,9 +446,9 @@ router.post("/navertokenlogin", async (req, res) => {
 
         let api_url =
             "https://nid.naver.com/oauth2.0/token?grant_type=authorization_code&client_id=" +
-            process.env.BOOK_CLIENT_ID +
+            process.env.NAVER_LOGIN_CLIENT_ID +
             "&client_secret=" +
-            process.env.BOOK_CLIENT_SECERET +
+            process.env.NAVER_LOGIN_CLIENT_SECRET +
             "&redirect_uri=" +
             redirectURI +
             "&code=" +
@@ -459,8 +459,8 @@ router.post("/navertokenlogin", async (req, res) => {
         axios
             .get(api_url, {
                 Accept: "application/json",
-                "X-Naver-Client-Id": process.env.BOOK_CLIENT_ID,
-                "X-Naver-Client-Secret": process.env.BOOK_CLIENT_SECERET,
+                "X-Naver-Client-Id": process.env.NAVER_LOGIN_CLIENT_ID,
+                "X-Naver-Client-Secret": process.env.NAVER_LOGIN_CLIENT_SECRET,
             })
             .then((res) => {
                 console.log("asdasdasd", res.data);
