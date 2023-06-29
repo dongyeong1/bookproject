@@ -446,9 +446,9 @@ router.post("/navertokenlogin", async (req, res) => {
 
         let api_url =
             "https://nid.naver.com/oauth2.0/token?grant_type=authorization_code&client_id=" +
-            client_id +
+            process.env.BOOK_CLIENT_ID +
             "&client_secret=" +
-            client_secret +
+            process.env.BOOK_CLIENT_SECERET +
             "&redirect_uri=" +
             redirectURI +
             "&code=" +
