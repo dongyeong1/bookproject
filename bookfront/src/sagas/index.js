@@ -26,6 +26,9 @@ import {
     NAVER_LOGIN_FAIL,
     NAVER_LOGIN_REQUEST,
     NAVER_LOGIN_SUCCESS,
+    NAVER_TOKEN_LOGIN_FAIL,
+    NAVER_TOKEN_LOGIN_REQUEST,
+    NAVER_TOKEN_LOGIN_SUCCESS,
     POST_DELETE_FAIL,
     POST_DELETE_REQUEST,
     POST_DELETE_SUCCESS,
@@ -92,16 +95,8 @@ function* searchBook(action) {
 }
 
 function bookLoadAPI(data) {
-    const url = `/v1/search/book_adv.json?d_isbn=${data}&start=1`;
-    const clientId = process.env.REACT_APP_BOOK_CLIENT_ID;
-    const clientSecret = process.env.REACT_APP_BOOK_CLIENT_SECRET;
-
-    return axios.get(url, {
-        headers: {
-            Accept: "application/json",
-            "X-Naver-Client-Id": clientId,
-            "X-Naver-Client-Secret": clientSecret,
-        },
+    return instance.post("/user/bookload", {
+        isbn: data,
     });
 }
 
@@ -482,6 +477,27 @@ function* naverLogin(action) {
     }
 }
 
+function naverTokenLoginAPI(data) {
+    return axios("/user/navertokenlogin", data);
+}
+
+function* naverTokenLogin(action) {
+    try {
+        const result = yield call(naverTokenLoginAPI, action.data);
+        console.log("sagadata", result);
+        yield put({
+            type: NAVER_TOKEN_LOGIN_SUCCESS,
+            data: result.data,
+        });
+    } catch (err) {
+        console.log("naverError", err);
+        yield put({
+            type: NAVER_TOKEN_LOGIN_FAIL,
+            error: "err",
+        });
+    }
+}
+
 function* watchSearchBook() {
     yield takeLatest(SEARCH_BOOK_REQUEST, searchBook);
 }
@@ -548,6 +564,10 @@ function* watchNaverLogin() {
 function* watchRateBookPostsLoad() {
     yield takeLatest(RATE_BOOK_POSTS_REQUEST, rateSort);
 }
+
+function* watchNaverTokenLogin() {
+    yield takeLatest(NAVER_TOKEN_LOGIN_REQUEST, naverTokenLogin);
+}
 export default function* rootSaga() {
     yield all([
         fork(watchLoadMyInfo),
@@ -568,5 +588,6 @@ export default function* rootSaga() {
         fork(watchBookLoad),
         fork(watchNaverLogin),
         fork(watchRateBookPostsLoad),
+        fork(watchNaverTokenLogin),
     ]);
 }

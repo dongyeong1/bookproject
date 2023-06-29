@@ -3,6 +3,12 @@ const { User, Post } = require("../models");
 const bcrypt = require("bcrypt");
 const passport = require("passport");
 const axios = require("axios");
+const { instance } = require("../../bookfront/src/sagas");
+const {
+    NAVER_ACCESS_TOKEN,
+    NAVER_TOKEN_TYPE,
+} = require("../../bookfront/src/components/LoginToken");
+const { redirect } = require("react-router-dom");
 
 const router = express.Router();
 
@@ -398,14 +404,91 @@ router.post("/booksearch", async (req, res) => {
             url: `https://openapi.naver.com/v1/search/book.json?query=${req.body.bookname}&sort=date&start=1&display=100`,
             headers: {
                 Accept: "application/json",
-                "X-Naver-Client-Id": "NqCz0y0licjXZjQJ46Wu",
-                "X-Naver-Client-Secret": "1QsSIEHHYS",
+                "X-Naver-Client-Id": process.env.BOOK_CLIENT_ID,
+                "X-Naver-Client-Secret": process.env.BOOK_CLIENT_SECERET,
             },
         }).then((response) => {
             res.status(200).json(response.data);
         });
 
         // res.json(booksearchresult);
+    } catch (err) {
+        console.log(err);
+    }
+});
+
+router.post("/bookload", async (req, res) => {
+    try {
+        // const kakaoinformation = await axios({
+        //     method: "get",
+        //     url: "https://kapi.kakao.com/v2/user/me",
+        //     headers: {
+        //         Authorization: `Bearer ${req.body.access_token}`,
+        //         "Content-Type": "application/x-www-form-urlencoded",
+        //     },
+        // });
+        console.log("dataaaaa", req.body.isbn);
+        await axios({
+            method: "get",
+            url: `https://openapi.naver.com//v1/search/book_adv.json?d_isbn=${req.body.isbn}&start=1`,
+            headers: {
+                Accept: "application/json",
+                "X-Naver-Client-Id": process.env.BOOK_CLIENT_ID,
+                "X-Naver-Client-Secret": process.env.BOOK_CLIENT_SECERET,
+            },
+        }).then((response) => {
+            res.status(200).json(response.data);
+        });
+
+        // res.json(booksearchresult);
+    } catch (err) {
+        console.log(err);
+    }
+});
+
+router.post("/navertokenlogin", async (req, res) => {
+    try {
+        let redirectURI = encodeURI("http://43.201.65.83/user/naverlogin");
+
+        let api_url =
+            "https://nid.naver.com/oauth2.0/token?grant_type=authorization_code&client_id=" +
+            client_id +
+            "&client_secret=" +
+            client_secret +
+            "&redirect_uri=" +
+            redirectURI +
+            "&code=" +
+            req.body.code +
+            "&state=" +
+            req.body.callback_state;
+
+        await axios
+            .get(api_url, {
+                Accept: "application/json",
+                "X-Naver-Client-Id": process.env.BOOK_CLIENT_ID,
+                "X-Naver-Client-Secret": process.env.BOOK_CLIENT_SECERET,
+            })
+            .then((res) => {
+                instance
+                    .post("/user/naverlogin", res.data, {
+                        Accept: "application/json",
+                        "X-Naver-Client-Id": process.env.BOOK_CLIENT_ID,
+                        "X-Naver-Client-Secret":
+                            process.env.BOOK_CLIENT_SECERET,
+                    })
+                    .then((res) => {
+                        sessionStorage.setItem(
+                            NAVER_ACCESS_TOKEN,
+                            res.data.access_token
+                        );
+                        sessionStorage.setItem(
+                            NAVER_TOKEN_TYPE,
+                            res.data.token_type
+                        );
+
+                        redirect("/");
+                    });
+            });
     } catch (err) {
         console.log(err);
     }

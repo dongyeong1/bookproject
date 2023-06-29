@@ -55,6 +55,10 @@ const initState = {
 
 //액션
 
+export const NAVER_TOKEN_LOGIN_REQUEST = "NAVER_TOKEN_LOGIN_REQUEST";
+export const NAVER_TOKEN_LOGIN_SUCCESS = "NAVER_TOKEN_LOGIN_SUCCESS";
+export const NAVER_TOKEN_LOGIN_FAIL = "NAVER_TOKEN_LOGIN_FAIL";
+
 export const BOOK_LOAD_REQUEST = "BOOK_LOAD_REQUEST";
 export const BOOK_LOAD_SUCCESS = "BOOK_LOAD_SUCCESS";
 export const BOOK_LOAD_FAIL = "BOOK_LOAD_FAIL";
@@ -138,6 +142,13 @@ export const REMOVE_POST_REQUEST = "REMOVE_POST_REQUEST";
 const rootReducer = (state = initState, action) =>
     produce(state, (draft) => {
         switch (action.type) {
+            case NAVER_TOKEN_LOGIN_REQUEST:
+                break;
+            case NAVER_TOKEN_LOGIN_SUCCESS:
+                // draft.user = action.data.exUser;
+                break;
+            case NAVER_TOKEN_LOGIN_FAIL:
+                break;
             case RATE_BOOK_POSTS_REQUEST:
                 draft.ratePostLoading = true;
                 draft.ratePostSuccess = false;
