@@ -468,8 +468,8 @@ router.post("/navertokenlogin", async (req, res) => {
                 "X-Naver-Client-Secret": process.env.BOOK_CLIENT_SECERET,
             })
             .then((res) => {
-                instance
-                    .post("/user/naverlogin", res.data, {
+                axios
+                    .post("http://43.201.65.83/user/naverlogin", res.data, {
                         Accept: "application/json",
                         "X-Naver-Client-Id": process.env.BOOK_CLIENT_ID,
                         "X-Naver-Client-Secret":
@@ -477,11 +477,11 @@ router.post("/navertokenlogin", async (req, res) => {
                     })
                     .then((res) => {
                         sessionStorage.setItem(
-                            NAVER_ACCESS_TOKEN,
+                            "naverlogin-access-token",
                             res.data.access_token
                         );
                         sessionStorage.setItem(
-                            NAVER_TOKEN_TYPE,
+                            "naverlogin-token-type",
                             res.data.token_type
                         );
 
