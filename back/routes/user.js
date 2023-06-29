@@ -471,16 +471,18 @@ router.post("/navertokenlogin", async (req, res) => {
                             process.env.BOOK_CLIENT_SECERET,
                     })
                     .then((res) => {
-                        sessionStorage.setItem(
-                            "naverlogin-access-token",
-                            res.data.access_token
-                        );
-                        sessionStorage.setItem(
-                            "naverlogin-token-type",
-                            res.data.token_type
-                        );
+                        console.log("asdsadasdasd", res);
+                        res.status(200).json(res);
+                        // sessionStorage.setItem(
+                        //     "naverlogin-access-token",
+                        //     res.data.access_token
+                        // );
+                        // sessionStorage.setItem(
+                        //     "naverlogin-token-type",
+                        //     res.data.token_type
+                        // );
 
-                        res.redirect("/");
+                        // res.redirect("/");
                     });
             });
     } catch (err) {

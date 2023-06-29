@@ -36,7 +36,7 @@ const NaverOauth = () => {
     };
 
     useEffect(() => {
-        // success();
+        success();
 
         let code = new URL(window.location.href).searchParams.get("code");
         let callback_state = new URL(window.location.href).searchParams.get(

@@ -59,6 +59,7 @@ import {
     NAVER_ACCESS_TOKEN,
     NAVER_TOKEN_TYPE,
 } from "../components/LoginToken";
+import { useNavigate } from "react-router-dom";
 
 export const instance = axios.create({
     baseURL: "http://43.201.65.83",
@@ -484,6 +485,12 @@ function naverTokenLoginAPI(data) {
 function* naverTokenLogin(action) {
     try {
         const result = yield call(naverTokenLoginAPI, action.data);
+        sessionStorage.setItem(
+            "naverlogin-access-token",
+            result.data.access_token
+        );
+        sessionStorage.setItem("naverlogin-token-type", result.data.token_type);
+
         console.log("sagadata", result);
         yield put({
             type: NAVER_TOKEN_LOGIN_SUCCESS,
