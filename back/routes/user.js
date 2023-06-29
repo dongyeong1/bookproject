@@ -395,7 +395,7 @@ router.post("/booksearch", async (req, res) => {
 
         const booksearchresult = await axios({
             method: "get",
-            url: `https://openapi.naver.com/v1/search/book.json?query=${data}&sort=date&start=1&display=100`,
+            url: `https://openapi.naver.com/v1/search/book.json?query=${req.body.data}&sort=date&start=1&display=100`,
             headers: {
                 Accept: "application/json",
                 "X-Naver-Client-Id": "NqCz0y0licjXZjQJ46Wu",
