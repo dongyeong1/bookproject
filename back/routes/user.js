@@ -424,7 +424,7 @@ router.post("/bookload", async (req, res) => {
         console.log("dataaaaa", req.body.isbn);
         await axios({
             method: "get",
-            url: `https://openapi.naver.com//v1/search/book_adv.json?d_isbn=${req.body.isbn}&start=1`,
+            url: `https://openapi.naver.com/v1/search/book_adv.json?d_isbn=${req.body.isbn}&start=1`,
             headers: {
                 Accept: "application/json",
                 "X-Naver-Client-Id": process.env.BOOK_CLIENT_ID,
