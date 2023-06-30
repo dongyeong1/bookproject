@@ -1,4 +1,4 @@
-import { Button, Empty, Modal } from "antd";
+import { Button, Col, Empty, Modal, Row } from "antd";
 // import Card from 'antd/lib/card/Card'
 import { Card } from "antd";
 import React, { useCallback, useEffect, useState } from "react";
@@ -128,53 +128,69 @@ const Book = () => {
         setPageNumber(selected);
     };
     return (
-        <div>
-            <CardWrapper>
-                <Card.Meta
-                    avatar={<img src={book && book.image} width="50px"></img>}
-                    description={book && book.title}
-                />
-            </CardWrapper>
-            <ButtonWrapper>
-                <Button
-                    size="large"
-                    onClick={dateSort}
-                    loading={bookPostsLoading}
-                >
-                    최신순
-                </Button>
-                <Button
-                    size="large"
-                    onClick={rateSort}
-                    loading={ratePostLoading}
-                >
-                    평점순
-                </Button>
-            </ButtonWrapper>
-            {posts ? (
-                posts.slice(pagesVisited, pagesVisited + PerPage).map((v) => (
-                    <div>
-                        <PostCard bookpost={v}></PostCard>
-                    </div>
-                ))
-            ) : (
-                <EmptyWrapper>
-                    <Empty description="등록된 독후감이 없습니다"></Empty>
-                </EmptyWrapper>
-            )}
+        <Row>
+            <div style={{ display: "flex" }}>
+                <Col xs={24} md={12}>
+                    <CardWrapper>
+                        <Card.Meta
+                            avatar={
+                                <img
+                                    src={book && book.image}
+                                    width="50px"
+                                ></img>
+                            }
+                            description={book && book.title}
+                        />
+                    </CardWrapper>
+                </Col>
 
-            <Pagination>
-                {posts && (
-                    <ReactPaginate
-                        previousLabel={<CaretLeftOutlined />}
-                        nextLabel={<CaretRightOutlined />}
-                        pageCount={pageCount}
-                        onPageChange={changePage}
-                        containerClassName={"paginationBttns"}
-                    ></ReactPaginate>
-                )}
-            </Pagination>
-        </div>
+                <Col xs={24} md={12}>
+                    <Card>
+                        <ButtonWrapper>
+                            <Button
+                                size="large"
+                                onClick={dateSort}
+                                loading={bookPostsLoading}
+                            >
+                                최신순
+                            </Button>
+                            <Button
+                                size="large"
+                                onClick={rateSort}
+                                loading={ratePostLoading}
+                            >
+                                평점순
+                            </Button>
+                        </ButtonWrapper>
+                        {posts ? (
+                            posts
+                                .slice(pagesVisited, pagesVisited + PerPage)
+                                .map((v) => (
+                                    <div>
+                                        <PostCard bookpost={v}></PostCard>
+                                    </div>
+                                ))
+                        ) : (
+                            <EmptyWrapper>
+                                <Empty description="등록된 독후감이 없습니다"></Empty>
+                            </EmptyWrapper>
+                        )}
+
+                        <Pagination>
+                            {posts && (
+                                <ReactPaginate
+                                    previousLabel={<CaretLeftOutlined />}
+                                    nextLabel={<CaretRightOutlined />}
+                                    pageCount={pageCount}
+                                    onPageChange={changePage}
+                                    containerClassName={"paginationBttns"}
+                                ></ReactPaginate>
+                            )}
+                        </Pagination>
+                    </Card>
+                </Col>
+            </div>
+        </Row>
     );
 };
 
