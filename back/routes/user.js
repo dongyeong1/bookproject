@@ -558,6 +558,7 @@ router.post("/navertokenlogin", async (req, res) => {
 
 router.post("/kakaotokenlogin", async (req, res) => {
     try {
+        console.log("reqrqrqerqerqer", req.body);
         let redirectURI = encodeURI("http://43.201.65.83/user/kakaologin");
 
         let api_url =
