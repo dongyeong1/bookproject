@@ -155,7 +155,7 @@ const PostForm = ({ reviewSetModal }) => {
                 },
             });
         } else {
-            if (text.trim().length === 0) {
+            if (!text) {
                 setTextError(true);
             }
             if (!searchedBook) {
