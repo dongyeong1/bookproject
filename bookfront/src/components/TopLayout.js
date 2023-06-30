@@ -254,7 +254,7 @@ const TopLayout = ({ children }) => {
                                     style={{ fontSize: 22, fontWeight: 600 }}
                                     onClick={modalHandle}
                                 >
-                                    리뷰쓰기
+                                    독후감쓰기
                                 </span>
                             </Link>
                         )}

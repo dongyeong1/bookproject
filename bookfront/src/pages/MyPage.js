@@ -332,7 +332,7 @@ const MyPage = () => {
                         ))
                     ) : (
                         <EmptyWrapper>
-                            <Empty description="검색결과없음" />
+                            <Empty description="독후감을 써주세요!" />
                         </EmptyWrapper>
                     )}
                     <PaginationWrapper>
