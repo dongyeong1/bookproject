@@ -509,6 +509,7 @@ function* naverTokenLogin(action) {
 }
 
 function kakaoTokenLoginAPI(data) {
+    console.log("asdasdasdasdasdasd", data);
     return instance.post("/user/kakaotokenlogin", data);
 }
 

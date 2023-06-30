@@ -52,9 +52,7 @@ const KakaoOauth = () => {
 
         dispatch({
             type: KAKAO_TOKEN_LOGIN_REQUEST,
-            data: {
-                code,
-            },
+            data: code,
         });
     }, []);
     return <div></div>;
