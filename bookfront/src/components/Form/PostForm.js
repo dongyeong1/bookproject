@@ -158,13 +158,13 @@ const PostForm = ({ reviewSetModal }) => {
             if (text.trim().length === 0) {
                 setTextError(true);
             }
-            if (searchedBook.trim().length === 0) {
+            if (!searchedBook) {
                 setImageError(true);
             }
             if (title.trim().length === 0) {
                 setTitleError(true);
             }
-            if (rate.trim().length === 0) {
+            if (!rate) {
                 setRateError(true);
             }
         }
