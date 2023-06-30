@@ -95,7 +95,7 @@ const PostForm = ({ reviewSetModal }) => {
     const onChangeText = useCallback(
         (e) => {
             setText(e.target.value);
-            if (e.target.value !== " ") {
+            if (e.target.value.trim().length !== 0) {
                 setTextError(false);
             }
         },
@@ -105,7 +105,7 @@ const PostForm = ({ reviewSetModal }) => {
     const onChangeTitle = useCallback(
         (e) => {
             setTitle(e.target.value);
-            if (e.target.value !== " ") {
+            if (e.target.value.trim().length !== 0) {
                 setTitleError(false);
             }
         },

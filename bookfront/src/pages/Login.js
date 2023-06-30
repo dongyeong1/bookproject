@@ -80,7 +80,9 @@ const Login = () => {
     const onChangeEmail = useCallback(
         (e) => {
             setEmail(e.target.value);
-            setEmailError(false);
+            if (e.target.value.trim().length !== 0) {
+                setEmailError(false);
+            }
         },
         [email]
     );
@@ -88,7 +90,9 @@ const Login = () => {
     const onChangePassword = useCallback(
         (e) => {
             setPassword(e.target.value);
-            setPasswordError(false);
+            if (e.target.value.trim().length !== 0) {
+                setPasswordError(false);
+            }
         },
         [password]
     );

@@ -64,21 +64,27 @@ const SignUp = () => {
     const onChangeEmail = useCallback(
         (e) => {
             setEmail(e.target.value);
-            setEmailError(false);
+            if (e.target.value.trim().length !== 0) {
+                setEmailError(false);
+            }
         },
         [email]
     );
     const onChangeNickname = useCallback(
         (e) => {
             setNickname(e.target.value);
-            setNicknameError(false);
+            if (e.target.value.trim().length !== 0) {
+                setNicknameError(false);
+            }
         },
         [nickname]
     );
     const onChangePassword = useCallback(
         (e) => {
             setPassword(e.target.value);
-            setPasswordError(false);
+            if (e.target.value.trim().length !== 0) {
+                setPasswordError(false);
+            }
         },
         [password]
     );
