@@ -1,4 +1,4 @@
-import { Card, Rate, Modal } from "antd";
+import { Card, Empty, Rate, Modal } from "antd";
 
 import React, { useEffect, useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,11 +20,17 @@ import ReactPaginate from "react-paginate";
 import PostModal from "../components/Modal/PostModal";
 import FollowModal from "../components/Modal/FollowModal";
 import FollowerModal from "../components/Modal/FollowerModal";
-import { StyleProvider } from "@ant-design/cssinjs";
 import {
     KAKAO_ACCESS_TOKEN,
     NAVER_ACCESS_TOKEN,
 } from "../components/LoginToken";
+
+const EmptyWrapper = styled.div`
+    // margin-top: 100px;
+    width: 300px;
+    margin: 100px auto;
+`;
+
 const ProfileWrapper = styled(Card)`
     width: 500px;
     height: 160px;
@@ -220,7 +226,7 @@ const MyPage = () => {
 
     return (
         <div>
-            {user && user.Posts && (
+            {user && (
                 <div>
                     <ProfileWrapper
                         actions={[
@@ -263,7 +269,7 @@ const MyPage = () => {
                         />
                     </ProfileWrapper>
 
-                    {user.Posts &&
+                    {user && user.Posts ? (
                         user.Posts.slice(
                             pagesVisited,
                             pagesVisited + PerPage
@@ -323,7 +329,12 @@ const MyPage = () => {
                                     ></RateWrapper>
                                 </Cards>
                             </CardWrapper>
-                        ))}
+                        ))
+                    ) : (
+                        <EmptyWrapper>
+                            <Empty description="검색결과없음" />
+                        </EmptyWrapper>
+                    )}
                     <PaginationWrapper>
                         <Pagination>
                             {user && user.Posts && (
