@@ -108,10 +108,10 @@ const Login = () => {
                 },
             });
         } else {
-            if (!email) {
+            if (email.trim().length === 0) {
                 setEmailError(true);
             }
-            if (!password) {
+            if (password.trim().length === 0) {
                 setPasswordError(true);
             }
         }

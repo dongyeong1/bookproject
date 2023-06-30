@@ -155,16 +155,16 @@ const PostForm = ({ reviewSetModal }) => {
                 },
             });
         } else {
-            if (!text) {
+            if (text.trim().length === 0) {
                 setTextError(true);
             }
-            if (!searchedBook) {
+            if (searchedBook.trim().length === 0) {
                 setImageError(true);
             }
-            if (!title) {
+            if (title.trim().length === 0) {
                 setTitleError(true);
             }
-            if (!rate) {
+            if (rate.trim().length === 0) {
                 setRateError(true);
             }
         }

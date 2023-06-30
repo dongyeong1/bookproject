@@ -106,13 +106,13 @@ const SignUp = () => {
                 },
             });
         } else {
-            if (!email) {
+            if (email.trim().length === 0) {
                 setEmailError(true);
             }
-            if (!password) {
+            if (password.trim().length === 0) {
                 setPwError(true);
             }
-            if (!nickname) {
+            if (nickname.trim().length === 0) {
                 setNicknameError(true);
             }
         }
