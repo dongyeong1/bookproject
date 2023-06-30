@@ -21,12 +21,13 @@ import {
 } from "../components/LoginToken";
 const CardWrapper = styled(Card)`
     width: 500px;
-    height: 110px;
+    height: 400px;
     border-radius: 20px;
     margin: 20px auto;
     background-color: lightgray;
 `;
 const ButtonWrapper = styled.div`
+    display: flex;
     margin-left: 320px;
     .ant-btn {
         border-radius: 20px;
@@ -129,23 +130,27 @@ const Book = () => {
     };
     return (
         <Row>
-            <div style={{ display: "flex" }}>
+            <div style={{ width: 1400, margin: "30px auto" }}>
                 <Col xs={24} md={12}>
-                    <CardWrapper>
-                        <Card.Meta
-                            avatar={
-                                <img
-                                    src={book && book.image}
-                                    width="50px"
-                                ></img>
-                            }
+                    <CardWrapper
+                        cover={
+                            <img src={book && book.image} width="200px"></img>
+                        }
+                    >
+                        {/* <Card.Meta
+                           
                             description={book && book.title}
-                        />
+                        /> */}
+                        <div>제목:{book && book.title}</div>
+                        <div>저자:{book && book.author}</div>
+                        <div>가격:{book && book.discount}</div>
+                        <div>출판사:{book && book.publisher}</div>
+                        <div>내용:{book && book.description}</div>
                     </CardWrapper>
                 </Col>
 
                 <Col xs={24} md={12}>
-                    <Card>
+                    <Card style={{ borderRadius: 20 }}>
                         <ButtonWrapper>
                             <Button
                                 size="large"
