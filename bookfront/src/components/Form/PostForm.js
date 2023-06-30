@@ -97,6 +97,8 @@ const PostForm = ({ reviewSetModal }) => {
             setText(e.target.value);
             if (e.target.value.trim().length !== 0) {
                 setTextError(false);
+            } else {
+                setTextError(true);
             }
         },
         [text]
@@ -107,6 +109,8 @@ const PostForm = ({ reviewSetModal }) => {
             setTitle(e.target.value);
             if (e.target.value.trim().length !== 0) {
                 setTitleError(false);
+            } else {
+                setTitleError(true);
             }
         },
         [title]
