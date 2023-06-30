@@ -130,11 +130,11 @@ const Book = () => {
     };
     return (
         <Row>
-            <div style={{ width: 1400, margin: "30px auto" }}>
-                <Col xs={24} md={12}>
+            <div style={{ display: "flex", width: 1400, margin: "30px auto" }}>
+                <Col>
                     <CardWrapper
                         cover={
-                            <img src={book && book.image} width="200px"></img>
+                            <img src={book && book.image} width="150px"></img>
                         }
                     >
                         {/* <Card.Meta
