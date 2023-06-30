@@ -339,7 +339,7 @@ const MyPage = () => {
                         : null}
                     <PaginationWrapper>
                         <Pagination>
-                            {user && user.Posts && (
+                            {user && user.Posts[0] && (
                                 <ReactPaginate
                                     previousLabel={<CaretLeftOutlined />}
                                     nextLabel={<CaretRightOutlined />}
