@@ -5,11 +5,15 @@ import { Modal } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 import { KAKAO_ACCESS_TOKEN, KAKAO_TOKEN_TYPE } from "../components/LoginToken";
 import { instance } from "../sagas";
+import { useDispatch, useSelector } from "react-redux";
+import { KAKAO_TOKEN_LOGIN_REQUEST } from "../reducer";
 
 const KakaoOauth = () => {
+    const { user } = useSelector((state) => state);
+    const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const success = () => {
+    const loading = () => {
         Modal.success({
             content: (
                 <div>
@@ -34,51 +38,22 @@ const KakaoOauth = () => {
     };
 
     useEffect(() => {
-        success();
+        if (user) {
+            Modal.destroyAll();
+            navigate("/");
+            Loginsuccess();
+        }
+    }, [user]);
 
-        let client_id = process.env.REACT_APP_KAKAO_REST_API;
-        let redirectURI = encodeURI("http://localhost:3000/KakaoOauth");
+    useEffect(() => {
+        loading();
+
         let code = new URL(window.location.href).searchParams.get("code");
 
-        let api_uri =
-            "/oauth/token?grant_type=authorization_code&client_id=" +
-            client_id +
-            "&redirect_uri=" +
-            redirectURI +
-            "&code=" +
-            code;
-
-        axios
-            .post(
-                api_uri,
-                {},
-                {
-                    "Content-Type": "application/x-www-form-urlencoded",
-                }
-            )
-
-            .then((res) => {
-                instance
-                    .post("/user/kakaologin", res.data, {
-                        "Content-Type": "application/x-www-form-urlencoded",
-                    })
-                    .then((res) => {
-                        sessionStorage.setItem(
-                            KAKAO_ACCESS_TOKEN,
-                            res.data.access_token
-                        );
-                        sessionStorage.setItem(
-                            KAKAO_TOKEN_TYPE,
-                            res.data.token_type
-                        );
-                        Modal.destroyAll();
-                        navigate("/");
-                        Loginsuccess();
-                    });
-            })
-            .catch((err) => {
-                console.log("error", err);
-            });
+        dispatch({
+            type: KAKAO_TOKEN_LOGIN_REQUEST,
+            data: code,
+        });
     }, []);
     return <div></div>;
 };

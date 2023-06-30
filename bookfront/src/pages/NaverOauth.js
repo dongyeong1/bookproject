@@ -12,7 +12,7 @@ const NaverOauth = () => {
     const { user } = useSelector((state) => state);
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const success = () => {
+    const loading = () => {
         Modal.success({
             content: (
                 <div>
@@ -45,7 +45,7 @@ const NaverOauth = () => {
     }, [user]);
 
     useEffect(() => {
-        success();
+        loading();
 
         let code = new URL(window.location.href).searchParams.get("code");
         let callback_state = new URL(window.location.href).searchParams.get(
@@ -59,55 +59,6 @@ const NaverOauth = () => {
                 callback_state,
             },
         });
-
-        // let client_id = process.env.REACT_APP_NAVER_LOGIN_CLIENT_ID;
-        // let client_secret = process.env.REACT_APP_NAVER_LOGIN_CLIENT_SECRET;
-        // let redirectURI = encodeURI("http://localhost:3065/user/naverlogin");
-
-        // let api_url =
-        //     "/oauth2.0/token?grant_type=authorization_code&client_id=" +
-        //     client_id +
-        //     "&client_secret=" +
-        //     client_secret +
-        //     "&redirect_uri=" +
-        //     redirectURI +
-        //     "&code=" +
-        //     code +
-        //     "&state=" +
-        //     callback_state;
-
-        // axios
-        //     .get(api_url, {
-        //         Accept: "application/json",
-        //         "X-Naver-Client-Id": client_id,
-        //         "X-Naver-Client-Secret": client_secret,
-        //     })
-
-        //     .then((res) => {
-        //         instance
-        //             .post("/user/naverlogin", res.data, {
-        //                 Accept: "application/json",
-        //                 "X-Naver-Client-Id": client_id,
-        //                 "X-Naver-Client-Secret": client_secret,
-        //             })
-        //             .then((res) => {
-        //                 sessionStorage.setItem(
-        //                     NAVER_ACCESS_TOKEN,
-        //                     res.data.access_token
-        //                 );
-        //                 sessionStorage.setItem(
-        //                     NAVER_TOKEN_TYPE,
-        //                     res.data.token_type
-        //                 );
-        //                 Modal.destroyAll();
-
-        //                 navigate("/");
-        //                 Loginsuccess();
-        //             });
-        //     })
-        //     .catch((err) => {
-        //         console.log("error", err);
-        //     });
     }, []);
 
     return <div></div>;

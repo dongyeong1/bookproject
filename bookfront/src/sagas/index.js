@@ -11,6 +11,9 @@ import {
     FOLLOW_FAILURE,
     FOLLOW_REQUEST,
     FOLLOW_SUCCESS,
+    KAKAO_TOKEN_LOGIN_FAIL,
+    KAKAO_TOKEN_LOGIN_REQUEST,
+    KAKAO_TOKEN_LOGIN_SUCCESS,
     LIKE_POST_FAIL,
     LIKE_POST_REQUEST,
     LIKE_POST_SUCCESS,
@@ -505,6 +508,33 @@ function* naverTokenLogin(action) {
     }
 }
 
+function kakaoTokenLoginAPI(data) {
+    return instance.post("/user/kakaotokenlogin", data);
+}
+
+function* kakaoTokenLogin(action) {
+    try {
+        const result = yield call(kakaoTokenLoginAPI, action.data);
+        sessionStorage.setItem(
+            "kakaologin-access-token",
+            result.data.access_token
+        );
+        sessionStorage.setItem("kakaologin-token-type", result.data.token_type);
+
+        console.log("sagadata", result);
+        yield put({
+            type: KAKAO_TOKEN_LOGIN_SUCCESS,
+            data: result.data,
+        });
+    } catch (err) {
+        console.log("naverError", err);
+        yield put({
+            type: KAKAO_TOKEN_LOGIN_FAIL,
+            error: "err",
+        });
+    }
+}
+
 function* watchSearchBook() {
     yield takeLatest(SEARCH_BOOK_REQUEST, searchBook);
 }
@@ -575,6 +605,9 @@ function* watchRateBookPostsLoad() {
 function* watchNaverTokenLogin() {
     yield takeLatest(NAVER_TOKEN_LOGIN_REQUEST, naverTokenLogin);
 }
+function* watchKakaoTokenLogin() {
+    yield takeLatest(KAKAO_TOKEN_LOGIN_REQUEST, kakaoTokenLogin);
+}
 export default function* rootSaga() {
     yield all([
         fork(watchLoadMyInfo),
@@ -596,5 +629,6 @@ export default function* rootSaga() {
         fork(watchNaverLogin),
         fork(watchRateBookPostsLoad),
         fork(watchNaverTokenLogin),
+        fork(watchKakaoTokenLogin),
     ]);
 }

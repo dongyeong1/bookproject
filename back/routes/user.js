@@ -413,14 +413,6 @@ router.post("/booksearch", async (req, res) => {
 
 router.post("/bookload", async (req, res) => {
     try {
-        // const kakaoinformation = await axios({
-        //     method: "get",
-        //     url: "https://kapi.kakao.com/v2/user/me",
-        //     headers: {
-        //         Authorization: `Bearer ${req.body.access_token}`,
-        //         "Content-Type": "application/x-www-form-urlencoded",
-        //     },
-        // });
         console.log("dataaaaa", req.body.isbn);
         await axios({
             method: "get",
@@ -433,8 +425,6 @@ router.post("/bookload", async (req, res) => {
         }).then((response) => {
             res.status(200).json(response.data);
         });
-
-        // res.json(booksearchresult);
     } catch (err) {
         console.log(err);
     }
@@ -461,15 +451,6 @@ router.post("/navertokenlogin", async (req, res) => {
             "X-Naver-Client-Id": process.env.NAVER_LOGIN_CLIENT_ID,
             "X-Naver-Client-Secret": process.env.NAVER_LOGIN_CLIENT_SECRET,
         });
-
-        // axios
-        //     .post("http://43.201.65.83/user/naverlogin", res.data, {
-        //         Accept: "application/json",
-        //         "X-Naver-Client-Id": process.env.BOOK_CLIENT_ID,
-        //         "X-Naver-Client-Secret":
-        //             process.env.BOOK_CLIENT_SECERET,
-        //     })
-        // console.log(t);
 
         const information = await axios({
             method: "get",
@@ -570,25 +551,127 @@ router.post("/navertokenlogin", async (req, res) => {
         }
 
         console.log(res);
-        /////////
+    } catch (err) {
+        console.log(err);
+    }
+});
 
-        // .then((res) => {
-        //     console.log("asdsadasdasd", res.data);
-        //     res.status(200).json(res);
-        //     // sessionStorage.setItem(
-        //     //     "naverlogin-access-token",
-        //     //     res.data.access_token
-        //     // );
-        //     // sessionStorage.setItem(
-        //     //     "naverlogin-token-type",
-        //     //     res.data.token_type
-        //     // );
+router.post("/kakaotokenlogin", async (req, res) => {
+    try {
+        let redirectURI = encodeURI("http://43.201.65.83/user/kakaologin");
 
-        //     // res.redirect("/");
-        // })
-        // .catch((err) => {
-        //     console.log("twoerererere,err", err);
-        // });
+        let api_url =
+            "https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id=" +
+            process.env.KAKAO_LOGIN_CLIENT_ID +
+            "&redirect_uri=" +
+            redirectURI +
+            "&code=" +
+            req.body.code;
+
+        const token = await axios.get(api_url, {
+            "Content-Type": "application/x-www-form-urlencoded",
+        });
+
+        const kakaoinformation = await axios.get(
+            "https://kapi.kakao.com/v2/user/me",
+            {
+                Authorization: `Bearer ${token.data.access_token}`,
+                "Content-Type": "application/x-www-form-urlencoded",
+            }
+        );
+
+        const exUser = await User.findOne({
+            where: { email: kakaoinformation.data.id },
+            order: [[{ model: Post }, "createdAt", "DESC"]],
+
+            attributes: {
+                exclude: ["password"],
+            },
+            include: [
+                {
+                    model: Post,
+                    order: ["createdAt", "DESC"],
+                    include: [
+                        {
+                            model: User,
+                            as: "Likers",
+                            attributes: ["id"],
+                        },
+                    ],
+                },
+                {
+                    model: User,
+                    as: "Followings",
+                    attributes: ["id", "nickname"],
+                },
+                {
+                    model: User,
+                    as: "Followers",
+                    attributes: ["id", "nickname"],
+                },
+                {
+                    model: Post,
+                    as: "Liked",
+                    attributes: ["id"],
+                },
+            ],
+        });
+
+        if (!exUser) {
+            const user = await User.create({
+                nickname: kakaoinformation.data.properties.nickname,
+                password: "kakaoUser",
+                email: kakaoinformation.data.id,
+            });
+            const exUser = await User.findOne({
+                where: { email: kakaoinformation.data.id },
+                order: [[{ model: Post }, "createdAt", "DESC"]],
+
+                attributes: {
+                    exclude: ["password"],
+                },
+                order: [[{ model: Post }, "createdAt", "DESC"]],
+
+                include: [
+                    {
+                        model: Post,
+                        include: [
+                            {
+                                model: User,
+                                as: "Likers",
+                                attributes: ["id"],
+                            },
+                        ],
+                    },
+                    {
+                        model: User,
+                        as: "Followings",
+                        attributes: ["id", "nickname"],
+                    },
+                    {
+                        model: User,
+                        as: "Followers",
+                        attributes: ["id", "nickname"],
+                    },
+                    {
+                        model: Post,
+                        as: "Liked",
+                        attributes: ["id"],
+                    },
+                ],
+            });
+            res.status(200).json({
+                exUser,
+                token_type: token.data.token_type,
+                access_token: token.data.access_token,
+            });
+        } else {
+            res.status(200).json({
+                exUser,
+                token_type: token.data.token_type,
+                access_token: token.data.access_token,
+            });
+        }
     } catch (err) {
         console.log(err);
     }
