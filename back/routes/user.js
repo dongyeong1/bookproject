@@ -574,13 +574,14 @@ router.post("/kakaotokenlogin", async (req, res) => {
             "Content-Type": "application/x-www-form-urlencoded",
         });
 
-        const kakaoinformation = await axios.get(
-            "https://kapi.kakao.com/v2/user/me",
-            {
+        const kakaoinformation = await axios({
+            method: "get",
+            url: "https://kapi.kakao.com/v2/user/me",
+            headers: {
                 Authorization: `Bearer ${token.data.access_token}`,
                 "Content-Type": "application/x-www-form-urlencoded",
-            }
-        );
+            },
+        });
 
         const exUser = await User.findOne({
             where: { email: kakaoinformation.data.id },
