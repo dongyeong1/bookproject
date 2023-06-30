@@ -226,7 +226,7 @@ const MyPage = () => {
 
     return (
         <div>
-            {user && (
+            {user && user.Posts && (
                 <div>
                     <ProfileWrapper
                         actions={[
@@ -269,72 +269,74 @@ const MyPage = () => {
                         />
                     </ProfileWrapper>
 
-                    {user && user.Posts ? (
-                        user.Posts.slice(
-                            pagesVisited,
-                            pagesVisited + PerPage
-                        ).map((post) => (
-                            <CardWrapper>
-                                <Cards
-                                    actions={[
-                                        <div
-                                            onClick={() =>
-                                                showEditModal(post.id)
-                                            }
-                                        >
-                                            {" "}
-                                            수정하기
-                                        </div>,
-                                        <div onClick={showConfirm(post.id)}>
-                                            {" "}
-                                            삭제하기
-                                        </div>,
-                                    ]}
-                                    key={post.bookname}
-                                >
-                                    <Card.Meta
-                                        avatar={
-                                            <img
-                                                src={post.src}
-                                                width="70px"
-                                            ></img>
-                                        }
-                                        title={
-                                            <div>
-                                                <div style={{ fontSize: 16 }}>
-                                                    {post.title}
-                                                </div>
-                                                <span style={{ fontSize: 11 }}>
-                                                    {detailDate(
-                                                        new Date(post.createdAt)
-                                                    )}
-                                                </span>
-                                            </div>
-                                        }
-                                        description={
-                                            <ContentWrapper
-                                                onClick={() => showModal(post)}
-                                            >
-                                                {textCut(
-                                                    post.content,
-                                                    15,
-                                                    " ...상세보기"
-                                                )}
-                                            </ContentWrapper>
-                                        }
-                                    />
-                                    <RateWrapper
-                                        disabled
-                                        value={post.rate}
-                                    ></RateWrapper>
-                                </Cards>
-                            </CardWrapper>
-                        ))
-                    ) : (
-                        <EmptyWrapper>
-                            <Empty description="독후감을 써주세요!" />
-                        </EmptyWrapper>
-                    )}
+                    {user && user.Posts
+                        ? user.Posts.slice(
+                              pagesVisited,
+                              pagesVisited + PerPage
+                          ).map((post) => (
+                              <CardWrapper>
+                                  <Cards
+                                      actions={[
+                                          <div
+                                              onClick={() =>
+                                                  showEditModal(post.id)
+                                              }
+                                          >
+                                              {" "}
+                                              수정하기
+                                          </div>,
+                                          <div onClick={showConfirm(post.id)}>
+                                              {" "}
+                                              삭제하기
+                                          </div>,
+                                      ]}
+                                      key={post.bookname}
+                                  >
+                                      <Card.Meta
+                                          avatar={
+                                              <img
+                                                  src={post.src}
+                                                  width="70px"
+                                              ></img>
+                                          }
+                                          title={
+                                              <div>
+                                                  <div style={{ fontSize: 16 }}>
+                                                      {post.title}
+                                                  </div>
+                                                  <span
+                                                      style={{ fontSize: 11 }}
+                                                  >
+                                                      {detailDate(
+                                                          new Date(
+                                                              post.createdAt
+                                                          )
+                                                      )}
+                                                  </span>
+                                              </div>
+                                          }
+                                          description={
+                                              <ContentWrapper
+                                                  onClick={() =>
+                                                      showModal(post)
+                                                  }
+                                              >
+                                                  {textCut(
+                                                      post.content,
+                                                      15,
+                                                      " ...상세보기"
+                                                  )}
+                                              </ContentWrapper>
+                                          }
+                                      />
+                                      <RateWrapper
+                                          disabled
+                                          value={post.rate}
+                                      ></RateWrapper>
+                                  </Cards>
+                              </CardWrapper>
+                          ))
+                        : null}
                     <PaginationWrapper>
                         <Pagination>
                             {user && user.Posts && (

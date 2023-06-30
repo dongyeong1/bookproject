@@ -150,9 +150,7 @@ const rootReducer = (state = initState, action) =>
                 break;
             case KAKAO_TOKEN_LOGIN_SUCCESS:
                 draft.user = action.data.exUser;
-                if (!action.data.exUser.Posts[0]) {
-                    draft.user.Posts = null;
-                }
+
                 break;
             case KAKAO_TOKEN_LOGIN_FAIL:
                 break;
@@ -160,9 +158,7 @@ const rootReducer = (state = initState, action) =>
                 break;
             case NAVER_TOKEN_LOGIN_SUCCESS:
                 draft.user = action.data.exUser;
-                if (!action.data.exUser.Posts[0]) {
-                    draft.user.Posts = null;
-                }
+
                 break;
             case NAVER_TOKEN_LOGIN_FAIL:
                 break;
@@ -184,9 +180,7 @@ const rootReducer = (state = initState, action) =>
                 break;
             case NAVER_LOGIN_SUCCESS:
                 draft.user = action.data.exUser;
-                if (!action.data.exUser.Posts[0]) {
-                    draft.user.Posts = null;
-                }
+
                 break;
             case NAVER_LOGIN_FAIL:
                 break;
