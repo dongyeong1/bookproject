@@ -33,16 +33,32 @@ const CommentForm = ({ bookpostId }) => {
             fontSize: 20,
         });
     };
+
+    const commentModal = () => {
+        Modal.info({
+            content: (
+                <div>
+                    <h3>댓글을 입력 해주세요!</h3>
+                </div>
+            ),
+            centered: true,
+            fontSize: 20,
+        });
+    };
     const onSubmit = () => {
         if (user) {
-            dispatch({
-                type: ADD_COMMENT_REQUEST,
-                data: {
-                    comment,
-                    userId: user.id,
-                    postId: bookpostId,
-                },
-            });
+            if (comment && comment.trim().length !== 0) {
+                dispatch({
+                    type: ADD_COMMENT_REQUEST,
+                    data: {
+                        comment,
+                        userId: user.id,
+                        postId: bookpostId,
+                    },
+                });
+            } else {
+                commentModal();
+            }
         } else {
             loginModal();
         }
