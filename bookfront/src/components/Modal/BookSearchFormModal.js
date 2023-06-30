@@ -60,7 +60,7 @@ const ResultWrapper = styled.div`
     overflow-y: auto;
 `;
 
-const Abc = styled.div`
+const ContetnWrapper = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -160,11 +160,11 @@ const BookSearchFormModal = ({ setModal, modal, setSearchedBook }) => {
                     onPressEnter={bookSearch}
                 />
                 <ResultWrapper>
-                    {books ? (
+                    {Array.isArray(books) ? (
                         books
                             .slice(pagesVisited, pagesVisited + PerPage)
                             .map((v) => (
-                                <Abc
+                                <ContetnWrapper
                                     style={{ marginBottom: 10 }}
                                     onClick={imageClick(
                                         v.title,
@@ -176,7 +176,7 @@ const BookSearchFormModal = ({ setModal, modal, setSearchedBook }) => {
                                     <div style={{ marginLeft: 20 }}>
                                         {v.title}
                                     </div>
-                                </Abc>
+                                </ContetnWrapper>
                             ))
                     ) : showComponent ? (
                         <EmptyWrapper>
@@ -185,7 +185,7 @@ const BookSearchFormModal = ({ setModal, modal, setSearchedBook }) => {
                     ) : null}
                 </ResultWrapper>
 
-                {books && (
+                {Array.isArray(books) && (
                     <Pagination>
                         <ReactPaginate
                             previousLabel={<CaretLeftOutlined />}

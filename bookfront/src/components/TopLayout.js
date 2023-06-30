@@ -283,9 +283,6 @@ const TopLayout = ({ children }) => {
                                 onClick={logOut}
                                 style={{ fontSize: 22, fontWeight: 600 }}
                             >
-                                <span style={{ fontSize: 15, marginRight: 20 }}>
-                                    {user && user.nickname}님 환영합니다!{" "}
-                                </span>
                                 로그아웃
                             </span>
                         </Link>
