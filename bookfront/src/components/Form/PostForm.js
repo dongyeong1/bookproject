@@ -161,7 +161,7 @@ const PostForm = ({ reviewSetModal }) => {
             if (!searchedBook) {
                 setImageError(true);
             }
-            if (title.trim().length === 0) {
+            if (!title) {
                 setTitleError(true);
             }
             if (!rate) {
