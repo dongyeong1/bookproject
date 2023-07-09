@@ -7,7 +7,21 @@ import styled from "styled-components";
 const ButtonWrapper = styled(Button)`
     border-radius: 30px;
     margin-top: 5px;
-    margin-left: 420px;
+    margin-left: auto;
+`;
+
+const Textarea = styled(Input.TextArea)`
+    @media screen and (max-width: 600px) {
+        width: 480px;
+        margin: auto;
+    }
+`;
+
+const Forms = styled(Form)`
+    @media screen and (max-width: 600px) {
+        width: 480px;
+        margin: auto;
+    }
 `;
 
 const CommentForm = ({ bookpostId }) => {
@@ -65,15 +79,12 @@ const CommentForm = ({ bookpostId }) => {
     };
 
     return (
-        <Form onFinish={onSubmit}>
-            <Input.TextArea
-                value={comment}
-                onChange={onChangeComment}
-            ></Input.TextArea>
-            <ButtonWrapper type="primary" htmlType="submit">
+        <Forms onFinish={onSubmit}>
+            <Textarea value={comment} onChange={onChangeComment}></Textarea>
+            <ButtonWrapper size="large" type="primary" htmlType="submit">
                 댓글작성
             </ButtonWrapper>
-        </Form>
+        </Forms>
     );
 };
 

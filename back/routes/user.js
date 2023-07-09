@@ -1,5 +1,5 @@
 const express = require("express");
-const { User, Post } = require("../models");
+const { User, Post, Comment } = require("../models");
 const bcrypt = require("bcrypt");
 const passport = require("passport");
 const axios = require("axios");
@@ -677,6 +677,82 @@ router.post("/kakaotokenlogin", async (req, res) => {
         }
     } catch (err) {
         console.log(err);
+    }
+});
+
+router.post("/removeFollower", async (req, res, next) => {
+    try {
+        const user = await User.findOne({ where: { id: req.body.followerId } });
+        if (!user) {
+            res.status(403).send("없는 사람입니다");
+        }
+        await user.removeFollowings(req.body.userId);
+        res.status(200).json({ followerId: parseInt(req.body.followerId, 10) });
+    } catch (error) {
+        console.log(error);
+    }
+});
+
+router.post("/followUser", async (req, res, next) => {
+    try {
+        console.log(";qweqweqweqweqweqweqweqw", req.body.followUserId);
+        const user = await User.findOne({
+            where: { id: req.body.followUserId },
+        });
+        if (!user) {
+            res.status(403).send("없는 사람입니다");
+        }
+
+        const followtrue = await User.follow;
+
+        const fullUserWithoutPassword = await User.findOne({
+            where: { id: req.body.followUserId },
+            order: [[{ model: Post }, "createdAt", "DESC"]],
+
+            attributes: {
+                exclude: ["password"],
+            },
+
+            include: [
+                {
+                    model: Post,
+                    include: [
+                        {
+                            model: User,
+                            as: "Likers",
+                            attributes: ["id"],
+                        },
+                        {
+                            model: Comment,
+                            include: [
+                                {
+                                    model: User,
+                                    attributes: ["id", "nickname"],
+                                },
+                            ],
+                        },
+                    ],
+                },
+                {
+                    model: User,
+                    as: "Followings",
+                    attributes: ["id", "nickname"],
+                },
+                {
+                    model: User,
+                    as: "Followers",
+                    attributes: ["id", "nickname"],
+                },
+                {
+                    model: Post,
+                    as: "Liked",
+                    attributes: ["id"],
+                },
+            ],
+        });
+        res.status(200).json(fullUserWithoutPassword);
+    } catch (error) {
+        console.log(error);
     }
 });
 

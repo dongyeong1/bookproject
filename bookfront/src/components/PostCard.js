@@ -4,6 +4,8 @@ import {
     HeartTwoTone,
     HeartOutlined,
     MessageOutlined,
+    UserAddOutlined,
+    UserDeleteOutlined,
 } from "@ant-design/icons";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,7 +22,7 @@ import { KAKAO_ACCESS_TOKEN, NAVER_ACCESS_TOKEN } from "./LoginToken";
 
 const Cards = styled(Card)`
     border: 1px solid lightgray;
-    width: 500px;
+    width: 800px;
     height: 160px;
     margin-bottom: 70px;
     margin-top: 20px;
@@ -39,7 +41,21 @@ const Cards = styled(Card)`
     .rate {
         position: relative;
         bottom: 90px;
-        left: 150px;
+        left: 300px;
+    }
+    @media screen and (max-width: 700px) {
+        width: 480px;
+        height: 160px;
+
+        margin-top: 10px;
+        margin: auto;
+        margin-bottom: 70px;
+
+        .rate {
+            position: relative;
+            bottom: 90px;
+            left: 150px;
+        }
     }
 `;
 // cursor:'pointer'
@@ -53,8 +69,20 @@ const CardWrapper = styled.div`
         // margin-top:30px;
     }
     margin-bottom: 100px;
-    width: 500px;
+    width: 800px;
     margin: auto;
+    @media screen and (max-width: 700px) {
+        width: 500px;
+        // margin-bottom:50px;
+    }
+`;
+
+const Comments = styled(Comment)`
+    @media screen and (max-width: 700px) {
+        width: 480px;
+        margin-top: 10px;
+        margin: auto;
+    }
 `;
 
 const PostCard = ({ bookpost }) => {
@@ -121,7 +149,7 @@ const PostCard = ({ bookpost }) => {
 
     const textCut = (txt, len, lastTxt) => {
         if (len == "" || len == null) {
-            len = 20;
+            len = 30;
         }
         if (lastTxt == "" || lastTxt == null) {
             lastTxt = "...";
@@ -147,6 +175,7 @@ const PostCard = ({ bookpost }) => {
     const showModal = useCallback(() => {
         setModal(true);
     }, [modal]);
+
     return (
         <CardWrapper key={bookpost.id}>
             <Cards
@@ -157,29 +186,29 @@ const PostCard = ({ bookpost }) => {
                                 onClick={() => onUnLike(bookpost.id)}
                                 style={{ borderRadius: 50 }}
                             >
-                                좋아요{bookpost.Likers.length}개
                                 <HeartTwoTone
                                     className="icon"
                                     size="large"
                                 ></HeartTwoTone>
+                                {" " + bookpost.Likers.length}
                             </div>
                         ) : (
                             <div
                                 onClick={() => onLike(bookpost.id)}
                                 style={{ borderRadius: 50 }}
                             >
-                                좋아요{bookpost.Likers.length}개
                                 <HeartOutlined
                                     size="large"
                                     className="icon"
                                 ></HeartOutlined>
+                                {" " + bookpost.Likers.length}
                             </div>
                         )}
                     </div>,
                     <div>
                         <div onClick={onToggleComment}>
-                            댓글{bookpost.Comments.length}개
                             <MessageOutlined className="icon" />
+                            {" " + bookpost.Comments.length}
                         </div>
                     </div>,
                     <div>{user && <FollowButton bookpost={bookpost} />}</div>,
@@ -199,7 +228,7 @@ const PostCard = ({ bookpost }) => {
                     }
                     description={
                         <div onClick={showModal}>
-                            {textCut(bookpost.content, 15, " ...상세보기")}
+                            {textCut(bookpost.content, 16, " ...상세보기")}
                         </div>
                     }
                 />
@@ -219,12 +248,15 @@ const PostCard = ({ bookpost }) => {
                             dataSource={bookpost.Comments}
                             renderItem={(item) => (
                                 <li>
-                                    <Comment
-                                        author={item.User.nickname}
+                                    <Comments
+                                        author={item.User.nickname + "님"}
                                         content={item.content}
+                                        datetime={detailDate(
+                                            new Date(item.createdAt)
+                                        )}
                                         avatar={
                                             <Avatar>
-                                                {item.User.nickname[0]}
+                                                {item.User.nickname}
                                             </Avatar>
                                         }
                                     />

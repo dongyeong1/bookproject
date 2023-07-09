@@ -1,4 +1,4 @@
-import { Input, Empty, List, Card, Row, Col, Spin } from "antd";
+import { Input, Empty, List, Card, Row, Col, Spin, Button } from "antd";
 import React, { useState, useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -47,26 +47,58 @@ const Pagination = styled.div`
         padding: 10px;
         margin: 8px;
         border-radius: 5px;
-        border: 1px solid lightgray;
+        border: 1px solid #457abf;
         color: black;
         cursor: pointer;
     }
     .paginationBttns a:hover {
         color: white;
-        background-color: lightgray;
+        background-color: #457abf;
     }
     .paginationActive a {
         color: white;
-        background-color: lightgray;
+    }
+    @media screen and (max-width: 600px) {
+        .paginationBttns {
+            width: 500px;
+            margin-right: auto;
+            padding: 0;
+            height: 30px;
+            list-style: none;
+            display: flex;
+            justify-content: center;
+        }
+        width: 500px;
+        margin-right: 100px;
     }
 `;
 
 const SearchWrapper = styled(Input)`
-    margin: 30px auto 0 auto;
+    margin: 10px auto 10px auto;
     border-radius: 20px;
     height: 50px;
     width: 500px;
     font-size: 25px;
+    @media screen and (max-width: 600px) {
+        width: 500px;
+        margin-bottom: 10px;
+    }
+    @media screen and (max-width: 800px) {
+        width: 500px;
+        margin-bottom: 10px;
+    }
+`;
+
+const Cards = styled(Card)`
+    border-radius: 20px;
+
+    @media screen and (max-width: 600px) {
+        width: 550px;
+        margin: auto;
+    }
+    @media screen and (max-width: 800px) {
+        width: 350px;
+    }
 `;
 
 const BookSearch = () => {
@@ -138,87 +170,61 @@ const BookSearch = () => {
     );
 
     return (
-        <div style={{ width: 1000, margin: "auto" }}>
-            <div>
-                <SearchWrapper
-                    onChange={onChangeBook}
-                    prefix={<SearchOutlined />}
-                    placeholder="책을 입력해주세요"
-                    size="large"
-                    onPressEnter={bookSearch}
-                />
+        <div>
+            <SearchWrapper
+                onChange={onChangeBook}
+                prefix={<SearchOutlined />}
+                placeholder="책을 입력해주세요"
+                size="large"
+                onPressEnter={bookSearch}
+            />
 
-                {/* {books ? (
-                    <ListWrapper
-                        itemLayout="horizontal"
-                        dataSource={books.slice(
-                            pagesVisited,
-                            pagesVisited + PerPage
-                        )}
-                        renderItem={(item) => (
-                            <List.Item>
-                                <List.Item.Meta
-                                    style={{ height: 80 }}
-                                    avatar={
+            {showComponent && !books ? (
+                <div style={{ width: 200, margin: "200px auto" }}>
+                    <Spin indicator={Icon}></Spin>
+                </div>
+            ) : null}
+            <Row gutter={[30, 20]}>
+                {Array.isArray(books) ? (
+                    books
+                        .slice(pagesVisited, pagesVisited + PerPage)
+                        .map((item) => (
+                            <Col xs={24} sm={12} md={6}>
+                                <Cards
+                                    hoverable
+                                    cover={
                                         <Link to={`/book/${item.isbn}`}>
                                             <img
+                                                width="150"
+                                                height="180"
+                                                style={{ marginTop: 10 }}
                                                 src={item.image}
-                                                width="60px"
                                             ></img>
                                         </Link>
                                     }
-                                    title={item.title}
-                                    description={item.author}
-                                ></List.Item.Meta>
-                            </List.Item>
-                        )}
-                    ></ListWrapper>
-                ) : showComponent ? (
+                                >
+                                    <Card.Meta title={item.title}></Card.Meta>
+                                    <Link to={`/book/${item.isbn}`}>
+                                        <Button
+                                            type="primary"
+                                            style={{
+                                                borderRadius: 20,
+                                                marginTop: 10,
+                                            }}
+                                        >
+                                            독후감보기
+                                        </Button>
+                                    </Link>
+                                </Cards>
+                            </Col>
+                        ))
+                ) : books === "검색결과없음" ? (
                     <EmptyWrapper>
                         <Empty description="검색결과없음" />
                     </EmptyWrapper>
-                ) : null} */}
-                {showComponent && !books ? (
-                    <div style={{ width: 200, margin: "200px auto" }}>
-                        <Spin indicator={Icon}></Spin>
-                    </div>
                 ) : null}
-                <Row gutter={[0, 60]}>
-                    {Array.isArray(books) ? (
-                        books
-                            .slice(pagesVisited, pagesVisited + PerPage)
-                            .map((item) => (
-                                <Col span={6}>
-                                    <Card
-                                        style={{
-                                            margin: "15px auto",
-                                            height: 200,
-                                            width: 150,
-                                        }}
-                                        hoverable
-                                        cover={
-                                            <Link to={`/book/${item.isbn}`}>
-                                                <img
-                                                    width="150"
-                                                    height="150"
-                                                    src={item.image}
-                                                ></img>
-                                            </Link>
-                                        }
-                                    >
-                                        <Card.Meta
-                                            title={item.title}
-                                        ></Card.Meta>
-                                    </Card>
-                                </Col>
-                            ))
-                    ) : books === "검색결과없음" ? (
-                        <EmptyWrapper>
-                            <Empty description="검색결과없음" />
-                        </EmptyWrapper>
-                    ) : null}
-                </Row>
-                {/* <Row gutter={[0, 100]}>
+            </Row>
+            {/* <Row gutter={[0, 100]}>
                     <Col span={6}>
                         <Card style={{ width: 100 }}></Card>
                     </Col>
@@ -249,18 +255,17 @@ const BookSearch = () => {
                     </Col>
                 </Row> */}
 
-                <Pagination>
-                    {Array.isArray(books) && (
-                        <ReactPaginate
-                            previousLabel={<CaretLeftOutlined />}
-                            nextLabel={<CaretRightOutlined />}
-                            pageCount={pageCount}
-                            onPageChange={changePage}
-                            containerClassName={"paginationBttns"}
-                        ></ReactPaginate>
-                    )}
-                </Pagination>
-            </div>
+            <Pagination>
+                {Array.isArray(books) && books.length > 8 && (
+                    <ReactPaginate
+                        previousLabel={<CaretLeftOutlined />}
+                        nextLabel={<CaretRightOutlined />}
+                        pageCount={pageCount}
+                        onPageChange={changePage}
+                        containerClassName={"paginationBttns"}
+                    ></ReactPaginate>
+                )}
+            </Pagination>
         </div>
     );
 };

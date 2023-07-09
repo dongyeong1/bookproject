@@ -1,5 +1,5 @@
 import React, { useCallback, useState, useEffect } from "react";
-import { Modal, Input, Empty } from "antd";
+import { Modal, Input, Empty, Spin } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import {
     BOOKS_REMOVE_REQUEST,
@@ -12,6 +12,7 @@ import {
     SearchOutlined,
     CaretRightOutlined,
     CaretLeftOutlined,
+    LoadingOutlined,
 } from "@ant-design/icons";
 
 const Pagination = styled.div`
@@ -29,14 +30,14 @@ const Pagination = styled.div`
         padding: 7px;
         margin: 10px;
         border-radius: 5px;
-        border: 1px solid lightgray;
+        border: 1px solid #457abf;
         color: black;
         cursor: pointer;
     }
 
     .paginationBttns a:hover {
         color: white;
-        background-color: lightgray;
+        background-color: #457abf;
     }
     .paginationActive a {
         color: white;
@@ -101,6 +102,8 @@ const BookSearchFormModal = ({ setModal, modal, setSearchedBook }) => {
             type: SEARCH_BOOK_REQUEST,
             data: bookName,
         });
+        setShowComponent(true);
+
         setTimeout(() => {
             setShowComponent(true);
         }, 100);
@@ -114,14 +117,16 @@ const BookSearchFormModal = ({ setModal, modal, setSearchedBook }) => {
             });
             setBookName("");
             setModal(false);
+            setShowComponent(false);
         },
         [bookName, modal]
     );
 
     const handleCancel = useCallback(() => {
+        console.log("cancel");
         setBookName("");
         setModal(false);
-        // setShowComponent(false)
+        setShowComponent(false);
         dispatch({
             type: BOOKS_REMOVE_REQUEST,
         });
@@ -145,6 +150,15 @@ const BookSearchFormModal = ({ setModal, modal, setSearchedBook }) => {
         setPageNumber(selected);
     };
 
+    const Icon = (
+        <LoadingOutlined
+            style={{
+                fontSize: 40,
+            }}
+            spin
+        />
+    );
+
     return (
         <div>
             <ModalWrapper
@@ -160,6 +174,11 @@ const BookSearchFormModal = ({ setModal, modal, setSearchedBook }) => {
                     onPressEnter={bookSearch}
                 />
                 <ResultWrapper>
+                    {showComponent && !books ? (
+                        <div style={{ width: 100, margin: "30px auto" }}>
+                            <Spin indicator={Icon}></Spin>
+                        </div>
+                    ) : null}
                     {Array.isArray(books) ? (
                         books
                             .slice(pagesVisited, pagesVisited + PerPage)
@@ -178,14 +197,14 @@ const BookSearchFormModal = ({ setModal, modal, setSearchedBook }) => {
                                     </div>
                                 </ContetnWrapper>
                             ))
-                    ) : showComponent ? (
+                    ) : books === "검색결과없음" ? (
                         <EmptyWrapper>
                             <Empty description="검색결과없음" />
                         </EmptyWrapper>
                     ) : null}
                 </ResultWrapper>
 
-                {Array.isArray(books) && (
+                {Array.isArray(books) && books.length > 8 && (
                     <Pagination>
                         <ReactPaginate
                             previousLabel={<CaretLeftOutlined />}

@@ -1,3 +1,4 @@
+import { DrawingManagerF } from "@react-google-maps/api";
 import { produce } from "immer";
 const initState = {
     books: null,
@@ -5,6 +6,7 @@ const initState = {
     posts: null,
     post: null,
     user: null,
+    followUserPage: null,
     signUpData: null,
     ratePostLoading: false,
     ratePostSuccess: false,
@@ -51,6 +53,12 @@ const initState = {
     postDeleteLoading: false,
     postDeleteSuccess: false,
     postDeleteError: null,
+    removeFollowerLoading: false,
+    removeFollowerDone: false,
+    removeFollowerError: null,
+    followUserInfoLoading: false,
+    followUserInfoDone: false,
+    followUserInfoError: null,
 };
 
 //액션
@@ -143,9 +151,47 @@ export const RATE_BOOK_POSTS_FAIL = "RATE_BOOK_POSTS_FAIL";
 
 export const REMOVE_POST_REQUEST = "REMOVE_POST_REQUEST";
 
+export const REMOVE_FOLLOWER_REQUEST = "REMOVE_FOLLOWER_REQUEST";
+export const REMOVE_FOLLOWER_SUCCESS = "REMOVE_FOLLOWER_SUCCESS";
+export const REMOVE_FOLLOWER_FAIL = "REMOVE_FOLLOWER_FAIL";
+
+export const FOLLOW_USER_INFO_REQUEST = "FOLLOW_USER_INFO_REQUEST";
+export const FOLLOW_USER_INFO_SUCCESS = "FOLLOW_USER_INFO_SUCCESS";
+export const FOLLOW_USER_INFO_FAIL = "FOLLOW_USER_INFO_FAIL";
+
 const rootReducer = (state = initState, action) =>
     produce(state, (draft) => {
         switch (action.type) {
+            case FOLLOW_USER_INFO_REQUEST:
+                draft.followUserInfoLoading = true;
+                draft.followUserInfoError = null;
+                draft.followUserInfoDone = false;
+                break;
+            case FOLLOW_USER_INFO_SUCCESS:
+                draft.followUserPage = action.data;
+                draft.followUserInfoDone = true;
+                draft.followUserInfoLoading = false;
+
+                break;
+            case FOLLOW_USER_INFO_FAIL:
+                break;
+            case REMOVE_FOLLOWER_REQUEST:
+                draft.removeFollowerLoading = true;
+                draft.removeFollowerError = null;
+                draft.removeFollowerDone = false;
+                break;
+            case REMOVE_FOLLOWER_SUCCESS:
+                draft.removeFollowerLoading = false;
+                draft.user.Followers = draft.user.Followers.filter(
+                    (v) => v.id !== action.data.followerId
+                );
+                draft.removeFollowerDone = true;
+                break;
+            case REMOVE_FOLLOWER_FAIL:
+                draft.removeFollowerLoading = false;
+                draft.removeFollowerError = action.error;
+                break;
+
             case KAKAO_TOKEN_LOGIN_REQUEST:
                 break;
             case KAKAO_TOKEN_LOGIN_SUCCESS:
@@ -185,7 +231,7 @@ const rootReducer = (state = initState, action) =>
             case NAVER_LOGIN_FAIL:
                 break;
             case BOOK_LOAD_SUCCESS:
-                draft.book = action.data[0];
+                draft.book = action.data;
                 break;
             case BOOK_LOAD_FAIL:
                 break;
@@ -322,6 +368,7 @@ const rootReducer = (state = initState, action) =>
 
                 break;
             case LOGIN_REQUEST:
+                draft.loginError = null;
                 draft.loginLoading = true;
                 draft.loginSuccess = false;
                 break;
@@ -332,6 +379,8 @@ const rootReducer = (state = initState, action) =>
                 break;
             case LOGIN_FAIL:
                 draft.loginError = action.data;
+                draft.loginLoading = false;
+
                 break;
             case ADD_POST_REQUEST:
                 draft.addPostLoading = true;
@@ -341,6 +390,8 @@ const rootReducer = (state = initState, action) =>
                 draft.addPostLoading = false;
                 draft.addPostSuccess = true;
                 draft.post = action.data;
+                draft.user.Posts.unshift(action.data);
+                draft.posts.unshift(action.data);
                 break;
             case ADD_POST_FAIL:
                 draft.addPostError = "err";

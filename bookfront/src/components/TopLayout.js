@@ -39,7 +39,9 @@ const NavWrapper = styled.div`
         text-decoration: none;
     }
     .nav_logo {
+        width: 200px;
         font-size: 20px;
+        cursor: pointer;
     }
 
     .nav_menu {
@@ -100,7 +102,7 @@ const NavWrapper = styled.div`
         display: none;
         right: 30px;
     }
-    @media screen and (max-width: 700px) {
+    @media screen and (max-width: 1000px) {
         flex-direction: column;
         align-items: flex-start;
         padding: 8px 24px;
@@ -110,6 +112,7 @@ const NavWrapper = styled.div`
         }
 
         .menuactive {
+            margin-right: 100px;
             flex-direction: column;
             align-items: center;
             width: 100%;
@@ -123,13 +126,16 @@ const NavWrapper = styled.div`
         }
 
         .nav_link {
+            width: 200px;
             display: none;
+            margin-right: 100px;
         }
 
         .linkactive {
             display: flex;
             justify-content: center;
-            width: 100%;
+            width: 200px;
+            margin: auto;
         }
 
         .nav_ham {
@@ -193,6 +199,12 @@ const TopLayout = ({ children }) => {
         navigate("/");
     }, []);
 
+    const myPageModalHandle = useCallback(() => {
+        if (!user) {
+            loginModal();
+        }
+    }, [user]);
+
     const modalHandle = useCallback(() => {
         if (!user) {
             console.log("asdasd");
@@ -220,6 +232,10 @@ const TopLayout = ({ children }) => {
         setLinkActive((prev) => !prev);
     }, []);
 
+    const homePage = useCallback(() => {
+        navigate("/");
+    }, []);
+
     return (
         <div>
             <ReviewModal
@@ -229,9 +245,11 @@ const TopLayout = ({ children }) => {
 
             <NavWrapper className="navbar">
                 <div className="nav_logo">
-                    <Link to="/">
-                        <img src="img/logo.png" width="200"></img>
-                    </Link>
+                    <img
+                        onClick={homePage}
+                        src="img/logo.png"
+                        width="200"
+                    ></img>
                 </div>
                 <ul className={menuActive ? "menuactive" : "nav_menu"}>
                     <li>
@@ -246,31 +264,28 @@ const TopLayout = ({ children }) => {
                         </Link>
                     </li>
                     <li>
-                        {user && (
-                            <Link>
-                                {" "}
-                                <span
-                                    className="rv"
-                                    style={{ fontSize: 22, fontWeight: 600 }}
-                                    onClick={modalHandle}
-                                >
-                                    독후감쓰기
-                                </span>
-                            </Link>
-                        )}
+                        <Link>
+                            {" "}
+                            <span
+                                className="rv"
+                                style={{ fontSize: 22, fontWeight: 600 }}
+                                onClick={modalHandle}
+                            >
+                                독후감쓰기
+                            </span>
+                        </Link>
                     </li>
                     <li>
                         {" "}
-                        {user && (
-                            <Link to="/mypage">
-                                <span
-                                    className="mp"
-                                    style={{ fontSize: 22, fontWeight: 600 }}
-                                >
-                                    마이페이지
-                                </span>
-                            </Link>
-                        )}
+                        <Link to="/mypage">
+                            <span
+                                className="mp"
+                                style={{ fontSize: 22, fontWeight: 600 }}
+                                onClick={myPageModalHandle}
+                            >
+                                마이페이지
+                            </span>
+                        </Link>
                     </li>
                 </ul>
 
@@ -289,7 +304,7 @@ const TopLayout = ({ children }) => {
                     ) : (
                         <Link to="/login">
                             <span style={{ fontSize: 22, fontWeight: 600 }}>
-                                로그인
+                                로그인/회원가입
                             </span>
                         </Link>
                     )}

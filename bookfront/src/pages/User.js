@@ -1,38 +1,33 @@
-import { Card, Empty, Rate, Modal, Button } from "antd";
-
 import React, { useEffect, useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import PostEditModal from "../components/Modal/PostEditModal";
-import { detailDate } from "../function";
+import { useNavigate, useParams } from "react-router-dom";
 import {
+    FOLLOW_USER_INFO_REQUEST,
+    LIKE_POST_REQUEST,
     LOAD_MY_INFO_REQUEST,
     NAVER_LOGIN_REQUEST,
-    POST_DELETE_REQUEST,
-    SEARCH_BOOK_REMOVE,
+    UNLIKE_POST_REQUEST,
 } from "../reducer";
+import { Card, Empty, Rate, Modal, Button } from "antd";
+import { detailDate } from "../function";
+import ReactPaginate from "react-paginate";
 import {
+    MessageOutlined,
     ExclamationCircleOutlined,
     CaretRightOutlined,
     CaretLeftOutlined,
+    HeartTwoTone,
+    HeartOutlined,
 } from "@ant-design/icons";
 import styled from "styled-components";
-import ReactPaginate from "react-paginate";
-import PostModal from "../components/Modal/PostModal";
-import FollowModal from "../components/Modal/FollowModal";
-import FollowerModal from "../components/Modal/FollowerModal";
 import {
     KAKAO_ACCESS_TOKEN,
     NAVER_ACCESS_TOKEN,
 } from "../components/LoginToken";
-import ReviewModal from "../components/Modal/ReivewModal";
 
-const EmptyWrapper = styled.div`
-    // margin-top: 100px;
-    width: 300px;
-    margin: 100px auto;
-`;
-
+import PostModal from "../components/Modal/PostModal";
+import FollowerModal from "../components/Modal/FollowerModal";
+import FollowModal from "../components/Modal/FollowModal";
 const ProfileWrapper = styled(Card)`
     width: 500px;
     height: 160px;
@@ -41,18 +36,16 @@ const ProfileWrapper = styled(Card)`
     background-color: lightGray;
 `;
 
-const RateWrapper = styled(Rate)`
-    position: relative;
-    bottom: 90px;
-    left: 160px;
-`;
-
 const Cards = styled(Card)`
     border: 1px solid lightgray;
     width: 500px;
     height: 160px;
     border-radius: 20px;
     margin: 20px auto;
+`;
+
+const ContentWrapper = styled.div`
+    cursor: pointer;
 `;
 
 const CardWrapper = styled.div`
@@ -69,6 +62,12 @@ const CardWrapper = styled.div`
         padding: 10px;
     }
     margin-top: 35px;
+`;
+
+const RateWrapper = styled(Rate)`
+    position: relative;
+    bottom: 90px;
+    left: 160px;
 `;
 
 const Pagination = styled.div`
@@ -105,20 +104,11 @@ const PaginationWrapper = styled.div`
     margin: 20px auto;
 `;
 
-const ContentWrapper = styled.div`
-    cursor: pointer;
-`;
-
-const MyPage = () => {
-    const { confirm } = Modal;
-    const [showReviewModal, setShowReviewModal] = useState(false);
-
-    const navigate = useNavigate();
+const User = () => {
+    const { id } = useParams();
     const dispatch = useDispatch();
-    const [editModal, setEditModal] = useState(false);
-    const [modalPost, setModalPost] = useState({});
-    const { user } = useSelector((state) => state);
-
+    const { followUserPage, user } = useSelector((state) => state);
+    const navigate = useNavigate();
     useEffect(() => {
         if (sessionStorage.getItem(NAVER_ACCESS_TOKEN)) {
             dispatch({
@@ -134,38 +124,30 @@ const MyPage = () => {
             });
         }
     }, []);
-
     useEffect(() => {
-        if (!(user && user.id)) {
-            navigate("/");
-        }
-    }, [user && user.id]);
-
-    const deletePost = useCallback((postId) => {
         dispatch({
-            type: POST_DELETE_REQUEST,
-            data: postId,
-        });
-    });
-
-    const showEditModal = (data) => {
-        const mPost = user.Posts.find((v) => v.id === data);
-        setModalPost(mPost);
-        setEditModal(true);
-    };
-
-    const showConfirm = useCallback((data) => () => {
-        confirm({
-            title: "삭제하시겠습니까?",
-            icon: <ExclamationCircleOutlined />,
-
-            onOk() {
-                deletePost(data);
-                setEditModal(false);
+            type: FOLLOW_USER_INFO_REQUEST,
+            data: {
+                followUserId: id,
+                userId: user.id,
             },
-            onCancel() {},
         });
-    });
+    }, [user]);
+
+    const [pageNumber, setPageNumber] = useState(0);
+
+    const PerPage = 5;
+    const pagesVisited = pageNumber * PerPage;
+
+    const pageCount = Math.ceil(
+        followUserPage &&
+            followUserPage.Posts &&
+            followUserPage.Posts.length / PerPage
+    );
+
+    const changePage = ({ selected }) => {
+        setPageNumber(selected);
+    };
 
     const textCut = (txt, len, lastTxt) => {
         if (len == "" || len == null) {
@@ -180,27 +162,13 @@ const MyPage = () => {
         return txt;
     };
 
-    const [pageNumber, setPageNumber] = useState(0);
-
-    const PerPage = 5;
-    const pagesVisited = pageNumber * PerPage;
-
-    const pageCount = Math.ceil(
-        user && user.Posts && user.Posts.length / PerPage
-    );
-
-    const changePage = ({ selected }) => {
-        setPageNumber(selected);
-    };
-
-    const [modalcontent, setModalContent] = useState({});
-
     const [modal, setModal] = useState(false);
+    const [modalcontent, setModalcontent] = useState();
 
     const showModal = useCallback(
         (post) => {
             setModal(true);
-            setModalContent(post);
+            setModalcontent(post);
         },
         [modal]
     );
@@ -226,85 +194,75 @@ const MyPage = () => {
         },
         [follwerModal, followerList]
     );
-
-    const modalHandle = useCallback(() => {
-        dispatch({
-            type: SEARCH_BOOK_REMOVE,
-        });
-        setShowReviewModal(true);
-    }, []);
-
     return (
         <div>
-            <ReviewModal
-                modal={showReviewModal}
-                setModal={setShowReviewModal}
-            ></ReviewModal>
-            {user && (
+            {followUserPage && (
                 <div>
                     <ProfileWrapper
                         actions={[
                             <div key="twit">
                                 독후감갯수
                                 <br />
-                                {user && user.Posts ? user.Posts.length : 0}
+                                {followUserPage && followUserPage.Posts
+                                    ? followUserPage.Posts.length
+                                    : 0}
                             </div>,
                             <div
                                 onClick={() =>
-                                    followModalHandle(user.Followings)
+                                    followModalHandle(followUserPage.Followings)
                                 }
                                 key="following"
                             >
                                 팔로잉
                                 <br />
-                                {user && user.Followings.length}
+                                {followUserPage &&
+                                    followUserPage.Followings.length}
                             </div>,
                             <div
                                 onClick={() =>
-                                    followerModalHandle(user.Followers)
+                                    followerModalHandle(
+                                        followUserPage.Followers
+                                    )
                                 }
                                 key="follower"
                             >
                                 팔로워
                                 <br />
-                                {user && user.Followers.length}
+                                {followUserPage &&
+                                    followUserPage.Followers.length}
                             </div>,
                         ]}
                     >
                         <Card.Meta
                             style={{ height: 60, marginTop: 10 }}
                             title={
-                                user && (
+                                followUserPage && (
                                     <div style={{ fontSize: 22 }}>
-                                        {user.nickname + "님 환영합니다!"}
+                                        {followUserPage.nickname + "님 페이지"}
                                     </div>
                                 )
                             }
                         />
                     </ProfileWrapper>
 
-                    {user && user.Posts ? (
-                        user.Posts.slice(
+                    {followUserPage && followUserPage.Posts ? (
+                        followUserPage.Posts.slice(
                             pagesVisited,
                             pagesVisited + PerPage
                         ).map((post) => (
                             <CardWrapper>
                                 <Cards
+                                    key={post.bookname}
                                     actions={[
-                                        <div
-                                            onClick={() =>
-                                                showEditModal(post.id)
-                                            }
-                                        >
-                                            {" "}
-                                            수정하기
+                                        <div>
+                                            <HeartOutlined />
+                                            {" " + post.Likers.length}
                                         </div>,
-                                        <div onClick={showConfirm(post.id)}>
-                                            {" "}
-                                            삭제하기
+                                        <div>
+                                            <MessageOutlined className="icon" />
+                                            {" " + post.Comments.length}
                                         </div>,
                                     ]}
-                                    key={post.bookname}
                                 >
                                     <Card.Meta
                                         avatar={
@@ -347,35 +305,23 @@ const MyPage = () => {
                     ) : (
                         <div style={{ marginTop: 150 }}>
                             <h2>등록된 독후감이 없습니다</h2>
-                            <Button
-                                onClick={modalHandle}
-                                style={{ borderRadius: 20 }}
-                                size="large"
-                                type="primary"
-                            >
-                                독후감쓰기
-                            </Button>
                         </div>
                     )}
                     <PaginationWrapper>
                         <Pagination>
-                            {user && user.Posts.length > 5 && (
-                                <ReactPaginate
-                                    previousLabel={<CaretLeftOutlined />}
-                                    nextLabel={<CaretRightOutlined />}
-                                    pageCount={pageCount}
-                                    onPageChange={changePage}
-                                    containerClassName={"paginationBttns"}
-                                ></ReactPaginate>
-                            )}
+                            {followUserPage.Posts &&
+                                followUserPage.Posts.length > 5 && (
+                                    <ReactPaginate
+                                        previousLabel={<CaretLeftOutlined />}
+                                        nextLabel={<CaretRightOutlined />}
+                                        pageCount={pageCount}
+                                        onPageChange={changePage}
+                                        containerClassName={"paginationBttns"}
+                                    ></ReactPaginate>
+                                )}
                         </Pagination>
                     </PaginationWrapper>
 
-                    <PostEditModal
-                        post={modalPost}
-                        editModal={editModal}
-                        setEditModal={setEditModal}
-                    ></PostEditModal>
                     <PostModal
                         modal={modal}
                         setModal={setModal}
@@ -385,11 +331,13 @@ const MyPage = () => {
                         followModal={followModal}
                         setFollowModal={setFollowModal}
                         followList={followList}
+                        other="other"
                     ></FollowModal>
                     <FollowerModal
                         follwerModal={follwerModal}
                         setFollowerModal={setFollowerModal}
                         followerList={followerList}
+                        other="other"
                     ></FollowerModal>
                 </div>
             )}
@@ -397,4 +345,4 @@ const MyPage = () => {
     );
 };
 
-export default MyPage;
+export default User;

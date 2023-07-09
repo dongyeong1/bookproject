@@ -1,7 +1,12 @@
 import React, { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { FOLLOW_REQUEST, UNFOLLOW_REQUEST } from "../reducer";
-import { MinusCircleOutlined, PlusCircleOutlined } from "@ant-design/icons";
+import {
+    MinusCircleOutlined,
+    PlusCircleOutlined,
+    UserAddOutlined,
+    UserDeleteOutlined,
+} from "@ant-design/icons";
 import styled from "styled-components";
 
 const FollowButtonWrapper = styled.div`
@@ -14,9 +19,12 @@ const FollowButton = ({ bookpost }) => {
     const { user, followLoading, unfollowLoading } = useSelector(
         (state) => state
     );
-    const isFollowing = user.Followings.find((v) => v.id === bookpost.User.id);
+    const isFollowing =
+        user.Followings &&
+        user.Followings.find((v) => v.id === bookpost.User.id);
 
-    const showFollowButton = user.Posts.find((v) => v.id === bookpost.id);
+    const showFollowButton =
+        user.Posts && user.Posts.find((v) => v.id === bookpost.id);
 
     const follow = useCallback(() => {
         if (isFollowing) {
@@ -39,12 +47,12 @@ const FollowButton = ({ bookpost }) => {
             {isFollowing ? (
                 <FollowButtonWrapper loading={unfollowLoading} onClick={follow}>
                     {bookpost.User.nickname}님 unFollow
-                    <MinusCircleOutlined />
+                    <UserDeleteOutlined />
                 </FollowButtonWrapper>
             ) : (
                 <FollowButtonWrapper loading={followLoading} onClick={follow}>
                     {bookpost.User.nickname}님 Follow
-                    <PlusCircleOutlined />
+                    <UserAddOutlined />{" "}
                 </FollowButtonWrapper>
             )}
         </>

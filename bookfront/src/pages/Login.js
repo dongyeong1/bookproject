@@ -49,8 +49,9 @@ const ErrorWrapper = styled.div`
 const Login = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const [submit, setSubmit] = useState(false);
     const inputRef = useRef();
-    const { loginLoading, user } = useSelector((state) => state);
+    const { loginLoading, user, loginError } = useSelector((state) => state);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [emailError, setEmailError] = useState(false);
@@ -67,12 +68,24 @@ const Login = () => {
         });
     };
 
+    const LoginFail = () => {
+        Modal.error({
+            content: (
+                <div>
+                    <h3>{loginError && loginError}</h3>
+                </div>
+            ),
+            centered: true,
+            fontSize: 20,
+        });
+    };
+
     useEffect(() => {
         inputRef.current.focus();
     }, []);
     useEffect(() => {
         if (user) {
-            navigate("/booksearch");
+            navigate("/");
             Loginsuccess();
         }
     }, [user]);
@@ -97,6 +110,13 @@ const Login = () => {
         [password]
     );
 
+    useEffect(() => {
+        if (submit && loginError) {
+            LoginFail();
+            setSubmit(false);
+        }
+    }, [loginError]);
+
     const onSubmit = useCallback(() => {
         console.log("asdsa");
         if (email && password) {
@@ -107,6 +127,7 @@ const Login = () => {
                     password,
                 },
             });
+            setSubmit(true);
         } else {
             if (email.trim().length === 0) {
                 setEmailError(true);

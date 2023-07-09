@@ -16,6 +16,7 @@ import Login from "./pages/Login";
 import NaverOauth from "./pages/NaverOauth";
 
 import KakaoOauth from "./pages/KakaoOauth";
+import User from "./pages/User";
 function App() {
     return (
         <BrowserRouter>
@@ -23,12 +24,17 @@ function App() {
                 <TopLayout></TopLayout>
 
                 <Row>
-                    <Col xs={24} md={24}>
+                    <Col xs={24}>
                         <Routes>
                             <Route
                                 exact
                                 path="/"
                                 element={<Home></Home>}
+                            ></Route>
+                            <Route
+                                exact
+                                path="/user/:id"
+                                element={<User></User>}
                             ></Route>
                             <Route
                                 exact

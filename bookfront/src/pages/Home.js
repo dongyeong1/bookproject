@@ -14,18 +14,22 @@ import {
     NAVER_ACCESS_TOKEN,
 } from "../components/LoginToken";
 
-const ImageWrapper = styled.div`
-    margin-top: 90px;
-`;
-
 const SearchWrapper = styled(Input)`
-    // margin: 40px auto;
-    // border:solid 1px lightgray
     border-radius: 200px;
     height: 50px;
     width: 600px;
     font-size: 25px;
     margin: 30px auto;
+    @media screen and (max-width: 700px) {
+        width: 500px;
+    }
+`;
+
+const ImageWrapper = styled.div`
+    margin-top: 120px;
+    @media screen and (max-width: 700px) {
+        margin-top: 25px;
+    }
 `;
 const Home = () => {
     const dispatch = useDispatch();
@@ -95,9 +99,9 @@ const Home = () => {
                 }}
                 src="img/bookimage.png"
             ></img> */}
-            <div style={{ marginTop: 120 }}>
+            <ImageWrapper>
                 <img src="img/logo.png" width="500"></img>
-            </div>
+            </ImageWrapper>
             <div>
                 <SearchWrapper
                     onChange={onChangeBook}

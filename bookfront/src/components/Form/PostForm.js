@@ -158,6 +158,7 @@ const PostForm = ({ reviewSetModal }) => {
                     bookname: searchedBook.title,
                 },
             });
+            dispatch({});
         } else {
             if (!text) {
                 setTextError(true);

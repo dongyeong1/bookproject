@@ -61,6 +61,18 @@ const SignUp = () => {
         });
     };
 
+    const error = () => {
+        Modal.error({
+            content: (
+                <div>
+                    <h3>{signupError}</h3>
+                </div>
+            ),
+            centered: true,
+            fontSize: 20,
+        });
+    };
+
     const onChangeEmail = useCallback(
         (e) => {
             setEmail(e.target.value);
@@ -120,7 +132,7 @@ const SignUp = () => {
 
     useEffect(() => {
         if (signupError) {
-            alert(signupError);
+            error();
         }
     }, [signupError]);
     useEffect(() => {
@@ -176,7 +188,7 @@ const SignUp = () => {
                     회원가입
                 </Buttons>
             </InputWrapper>
-            <div style={{ width: 140, margin: "auto", marginTop: 30 }}>
+            <div style={{ width: 140, margin: "auto" }}>
                 {" "}
                 이미회원이라면?{" "}
                 <Link to="/Login">

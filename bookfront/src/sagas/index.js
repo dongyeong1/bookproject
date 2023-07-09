@@ -11,6 +11,9 @@ import {
     FOLLOW_FAILURE,
     FOLLOW_REQUEST,
     FOLLOW_SUCCESS,
+    FOLLOW_USER_INFO_FAIL,
+    FOLLOW_USER_INFO_REQUEST,
+    FOLLOW_USER_INFO_SUCCESS,
     KAKAO_TOKEN_LOGIN_FAIL,
     KAKAO_TOKEN_LOGIN_REQUEST,
     KAKAO_TOKEN_LOGIN_SUCCESS,
@@ -42,6 +45,9 @@ import {
     POST_LOAD_SUCCESS,
     RATE_BOOK_POSTS_REQUEST,
     RATE_BOOK_POSTS_SUCCESS,
+    REMOVE_FOLLOWER_FAIL,
+    REMOVE_FOLLOWER_REQUEST,
+    REMOVE_FOLLOWER_SUCCESS,
     SEARCH_BOOK_REQUEST,
     SEARCH_BOOK_SUCCESS,
     SIGNUP_FAIL,
@@ -64,8 +70,13 @@ import {
 } from "../components/LoginToken";
 import { useNavigate } from "react-router-dom";
 
+// export const instance = axios.create({
+//     baseURL: "http://43.201.65.83",
+//     withCredentials: true,
+// });
+
 export const instance = axios.create({
-    baseURL: "http://43.201.65.83",
+    baseURL: "http://localhost:3065",
     withCredentials: true,
 });
 
@@ -525,6 +536,46 @@ function* kakaoTokenLogin(action) {
     }
 }
 
+function removeFollowerAPI(data) {
+    return instance.post("/user/removeFollower", data);
+}
+
+function* removeFollower(action) {
+    try {
+        const result = yield call(removeFollowerAPI, action.data);
+
+        yield put({
+            type: REMOVE_FOLLOWER_SUCCESS,
+            data: result.data,
+        });
+    } catch (err) {
+        yield put({
+            type: REMOVE_FOLLOWER_FAIL,
+            error: err.response.data,
+        });
+    }
+}
+
+function followUserInfoAPI(data) {
+    return instance.post("/user/followUser", data);
+}
+
+function* followUserInfo(action) {
+    try {
+        const result = yield call(followUserInfoAPI, action.data);
+
+        yield put({
+            type: FOLLOW_USER_INFO_SUCCESS,
+            data: result.data,
+        });
+    } catch (err) {
+        yield put({
+            type: FOLLOW_USER_INFO_FAIL,
+            error: err.response.data,
+        });
+    }
+}
+
 function* watchSearchBook() {
     yield takeLatest(SEARCH_BOOK_REQUEST, searchBook);
 }
@@ -598,6 +649,14 @@ function* watchNaverTokenLogin() {
 function* watchKakaoTokenLogin() {
     yield takeLatest(KAKAO_TOKEN_LOGIN_REQUEST, kakaoTokenLogin);
 }
+
+function* watchremoveFollower() {
+    yield takeLatest(REMOVE_FOLLOWER_REQUEST, removeFollower);
+}
+
+function* watchFollowUserInfo() {
+    yield takeLatest(FOLLOW_USER_INFO_REQUEST, followUserInfo);
+}
 export default function* rootSaga() {
     yield all([
         fork(watchLoadMyInfo),
@@ -620,5 +679,7 @@ export default function* rootSaga() {
         fork(watchRateBookPostsLoad),
         fork(watchNaverTokenLogin),
         fork(watchKakaoTokenLogin),
+        fork(watchremoveFollower),
+        fork(watchFollowUserInfo),
     ]);
 }
