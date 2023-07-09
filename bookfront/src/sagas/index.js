@@ -70,15 +70,15 @@ import {
 } from "../components/LoginToken";
 import { useNavigate } from "react-router-dom";
 
-// export const instance = axios.create({
-//     baseURL: "http://43.201.65.83",
-//     withCredentials: true,
-// });
-
 export const instance = axios.create({
-    baseURL: "http://localhost:3065",
+    baseURL: "http://3.94.171.53/",
     withCredentials: true,
 });
+
+// export const instance = axios.create({
+//     baseURL: "http://localhost:3065",
+//     withCredentials: true,
+// });
 
 function searchBookAPI(data) {
     return instance.post("/user/booksearch", {
