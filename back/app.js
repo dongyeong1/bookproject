@@ -16,7 +16,7 @@ const app = express();
 if (process.env.NODE_ENV === "production") {
     app.use(
         cors({
-            origin: "http://13.209.99.236",
+            origin: "http://184.72.104.123",
             credentials: true,
         })
     );
@@ -59,10 +59,10 @@ app.use(passport.session());
 app.use("/post", postRouter);
 app.use("/user", userRouter);
 
-// app.listen(80, () => {
-//     console.log("서버실행중");
-// });
-
-app.listen(3065, () => {
+app.listen(80, () => {
     console.log("서버실행중");
 });
+
+// app.listen(3065, () => {
+//     console.log("서버실행중");
+// });
