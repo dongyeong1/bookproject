@@ -4,8 +4,6 @@ import {
     HeartTwoTone,
     HeartOutlined,
     MessageOutlined,
-    UserAddOutlined,
-    UserDeleteOutlined,
 } from "@ant-design/icons";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
@@ -83,6 +81,10 @@ const Comments = styled(Comment)`
         margin-top: 10px;
         margin: auto;
     }
+`;
+
+const HeartWrapper = styled.div`
+    border-radius: 50px;
 `;
 
 const PostCard = ({ bookpost }) => {
@@ -182,27 +184,21 @@ const PostCard = ({ bookpost }) => {
                 actions={[
                     <div>
                         {liked ? (
-                            <div
-                                onClick={() => onUnLike(bookpost.id)}
-                                style={{ borderRadius: 50 }}
-                            >
+                            <HeartWrapper onClick={() => onUnLike(bookpost.id)}>
                                 <HeartTwoTone
                                     className="icon"
                                     size="large"
                                 ></HeartTwoTone>
                                 {" " + bookpost.Likers.length}
-                            </div>
+                            </HeartWrapper>
                         ) : (
-                            <div
-                                onClick={() => onLike(bookpost.id)}
-                                style={{ borderRadius: 50 }}
-                            >
+                            <HeartWrapper onClick={() => onLike(bookpost.id)}>
                                 <HeartOutlined
                                     size="large"
                                     className="icon"
                                 ></HeartOutlined>
                                 {" " + bookpost.Likers.length}
-                            </div>
+                            </HeartWrapper>
                         )}
                     </div>,
                     <div>

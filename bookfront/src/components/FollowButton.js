@@ -1,12 +1,7 @@
 import React, { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { FOLLOW_REQUEST, UNFOLLOW_REQUEST } from "../reducer";
-import {
-    MinusCircleOutlined,
-    PlusCircleOutlined,
-    UserAddOutlined,
-    UserDeleteOutlined,
-} from "@ant-design/icons";
+import { UserAddOutlined, UserDeleteOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 
 const FollowButtonWrapper = styled.div`

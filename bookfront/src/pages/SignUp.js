@@ -182,7 +182,7 @@ const SignUp = () => {
                     placeholder="비밀번호를 한번더 입력해주세요"
                 />
                 {passwordError && (
-                    <div style={{ color: "red" }}>비밀번호가 맞지않습니다</div>
+                    <ErrorWrapper>비밀번호가 맞지않습니다</ErrorWrapper>
                 )}
                 <Buttons type="primary" className="btn" onClick={signUp}>
                     회원가입

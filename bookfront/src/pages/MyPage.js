@@ -1,4 +1,4 @@
-import { Card, Empty, Rate, Modal, Button } from "antd";
+import { Card, Rate, Modal, Button } from "antd";
 
 import React, { useEffect, useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -27,13 +27,11 @@ import {
 } from "../components/LoginToken";
 import ReviewModal from "../components/Modal/ReivewModal";
 
-const EmptyWrapper = styled.div`
-    // margin-top: 100px;
-    width: 300px;
-    margin: 100px auto;
-`;
-
 const ProfileWrapper = styled(Card)`
+    .ant-card-meta {
+        height: 60px;
+        margin-top: 10px;
+    }
     width: 500px;
     height: 160px;
     margin: 20px auto;
@@ -107,6 +105,13 @@ const PaginationWrapper = styled.div`
 
 const ContentWrapper = styled.div`
     cursor: pointer;
+`;
+
+const EmptyWrapper = styled.div`
+    margin-top: 150px;
+    & > .ant-btn {
+        border-radius: 20px;
+    }
 `;
 
 const MyPage = () => {
@@ -272,7 +277,6 @@ const MyPage = () => {
                         ]}
                     >
                         <Card.Meta
-                            style={{ height: 60, marginTop: 10 }}
                             title={
                                 user && (
                                     <div style={{ fontSize: 22 }}>
@@ -345,21 +349,20 @@ const MyPage = () => {
                             </CardWrapper>
                         ))
                     ) : (
-                        <div style={{ marginTop: 150 }}>
+                        <EmptyWrapper>
                             <h2>등록된 독후감이 없습니다</h2>
                             <Button
                                 onClick={modalHandle}
-                                style={{ borderRadius: 20 }}
                                 size="large"
                                 type="primary"
                             >
                                 독후감쓰기
                             </Button>
-                        </div>
+                        </EmptyWrapper>
                     )}
                     <PaginationWrapper>
                         <Pagination>
-                            {user && user.Posts.length > 5 && (
+                            {user.Posts && user.Posts.length > 5 && (
                                 <ReactPaginate
                                     previousLabel={<CaretLeftOutlined />}
                                     nextLabel={<CaretRightOutlined />}

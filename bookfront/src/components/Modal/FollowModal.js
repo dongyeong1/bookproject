@@ -3,12 +3,7 @@ import { List, Modal, Button, Avatar } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { UNFOLLOW_REQUEST } from "../../reducer";
 import { useNavigate } from "react-router-dom";
-import {
-    SearchOutlined,
-    CaretRightOutlined,
-    CaretLeftOutlined,
-    LoadingOutlined,
-} from "@ant-design/icons";
+import { CaretRightOutlined, CaretLeftOutlined } from "@ant-design/icons";
 import ReactPaginate from "react-paginate";
 import styled from "styled-components";
 const Pagination = styled.div`
@@ -38,6 +33,27 @@ const Pagination = styled.div`
     .paginationActive a {
         color: white;
         background-color: lightgray;
+    }
+`;
+
+const Lists = styled(List)`
+    .ant-spin-nested-loading
+        > .ant-spin-container
+        > .ant-list-items
+        > .ant-list-item
+        > div
+        > .ant-btn {
+        border-radius: 20px;
+    }
+`;
+
+const ButtonWrapper = styled.div`
+    .otheruser {
+        border-radius: 20px;
+        margin-right: 10px;
+    }
+    .followcancel {
+        border-radius: 20px;
     }
 `;
 
@@ -80,7 +96,7 @@ const FollowModal = ({ followModal, setFollowModal, followList, other }) => {
                 onCancel={handleCancel}
             >
                 {followList && (
-                    <List
+                    <Lists
                         itemLayout="horizontal"
                         dataSource={
                             other
@@ -104,30 +120,27 @@ const FollowModal = ({ followModal, setFollowModal, followList, other }) => {
                                     title={item.nickname}
                                 ></List.Item.Meta>
                                 {other ? null : (
-                                    <div>
+                                    <ButtonWrapper>
                                         <Button
                                             type="primary"
-                                            style={{
-                                                borderRadius: 20,
-                                                marginRight: 10,
-                                            }}
+                                            className="otheruser"
                                             onClick={() => userPage(item.id)}
                                         >
                                             독후감보기
                                         </Button>
                                         <Button
                                             loading={unfollowLoading}
-                                            style={{ borderRadius: 20 }}
                                             type="primary"
+                                            className="followcancel"
                                             onClick={() => unfollow(item.id)}
                                         >
                                             팔로우취소
                                         </Button>
-                                    </div>
+                                    </ButtonWrapper>
                                 )}
                             </List.Item>
                         )}
-                    ></List>
+                    ></Lists>
                 )}
                 {followList.length > 8 && (
                     <Pagination>

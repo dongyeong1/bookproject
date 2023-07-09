@@ -1,22 +1,18 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import {
     FOLLOW_USER_INFO_REQUEST,
-    LIKE_POST_REQUEST,
     LOAD_MY_INFO_REQUEST,
     NAVER_LOGIN_REQUEST,
-    UNLIKE_POST_REQUEST,
 } from "../reducer";
-import { Card, Empty, Rate, Modal, Button } from "antd";
+import { Card, Rate } from "antd";
 import { detailDate } from "../function";
 import ReactPaginate from "react-paginate";
 import {
     MessageOutlined,
-    ExclamationCircleOutlined,
     CaretRightOutlined,
     CaretLeftOutlined,
-    HeartTwoTone,
     HeartOutlined,
 } from "@ant-design/icons";
 import styled from "styled-components";
@@ -29,6 +25,10 @@ import PostModal from "../components/Modal/PostModal";
 import FollowerModal from "../components/Modal/FollowerModal";
 import FollowModal from "../components/Modal/FollowModal";
 const ProfileWrapper = styled(Card)`
+    .ant-card-meta {
+        height: 60px;
+        margin-top: 10px;
+    }
     width: 500px;
     height: 160px;
     margin: 20px auto;
@@ -104,11 +104,14 @@ const PaginationWrapper = styled.div`
     margin: 20px auto;
 `;
 
+const EmptyWrapper = styled.div`
+    margin-top: 150px;
+`;
+
 const User = () => {
     const { id } = useParams();
     const dispatch = useDispatch();
     const { followUserPage, user } = useSelector((state) => state);
-    const navigate = useNavigate();
     useEffect(() => {
         if (sessionStorage.getItem(NAVER_ACCESS_TOKEN)) {
             dispatch({
@@ -234,7 +237,6 @@ const User = () => {
                         ]}
                     >
                         <Card.Meta
-                            style={{ height: 60, marginTop: 10 }}
                             title={
                                 followUserPage && (
                                     <div style={{ fontSize: 22 }}>
@@ -303,9 +305,9 @@ const User = () => {
                             </CardWrapper>
                         ))
                     ) : (
-                        <div style={{ marginTop: 150 }}>
+                        <EmptyWrapper>
                             <h2>등록된 독후감이 없습니다</h2>
-                        </div>
+                        </EmptyWrapper>
                     )}
                     <PaginationWrapper>
                         <Pagination>

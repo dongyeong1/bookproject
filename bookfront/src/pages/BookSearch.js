@@ -1,4 +1,4 @@
-import { Input, Empty, List, Card, Row, Col, Spin, Button } from "antd";
+import { Input, Empty, Card, Row, Col, Spin, Button } from "antd";
 import React, { useState, useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -24,11 +24,6 @@ const EmptyWrapper = styled.div`
     // margin-top: 100px;
     width: 300px;
     margin: 100px auto;
-`;
-
-const ListWrapper = styled(List)`
-    width: 700px;
-    margin: 30px auto;
 `;
 
 const Pagination = styled.div`
@@ -90,6 +85,11 @@ const SearchWrapper = styled(Input)`
 `;
 
 const Cards = styled(Card)`
+    .ant-card-cover > a > img {
+        margin-top: 10px;
+        width: 150px;
+        height: 180px;
+    }
     border-radius: 20px;
 
     @media screen and (max-width: 600px) {
@@ -101,6 +101,10 @@ const Cards = styled(Card)`
     }
 `;
 
+const SpinWrapper = styled.div`
+    width: 200px;
+    margin: 200px auto;
+`;
 const BookSearch = () => {
     const dispatch = useDispatch();
 
@@ -180,9 +184,9 @@ const BookSearch = () => {
             />
 
             {showComponent && !books ? (
-                <div style={{ width: 200, margin: "200px auto" }}>
+                <SpinWrapper>
                     <Spin indicator={Icon}></Spin>
-                </div>
+                </SpinWrapper>
             ) : null}
             <Row gutter={[30, 20]}>
                 {Array.isArray(books) ? (
@@ -194,12 +198,7 @@ const BookSearch = () => {
                                     hoverable
                                     cover={
                                         <Link to={`/book/${item.isbn}`}>
-                                            <img
-                                                width="150"
-                                                height="180"
-                                                style={{ marginTop: 10 }}
-                                                src={item.image}
-                                            ></img>
+                                            <img src={item.image} />
                                         </Link>
                                     }
                                 >
@@ -224,36 +223,6 @@ const BookSearch = () => {
                     </EmptyWrapper>
                 ) : null}
             </Row>
-            {/* <Row gutter={[0, 100]}>
-                    <Col span={6}>
-                        <Card style={{ width: 100 }}></Card>
-                    </Col>
-                    <Col span={6}>
-                        <Card style={{ width: 100 }}></Card>
-                    </Col>
-
-                    <Col span={6}>
-                        <Card style={{ width: 100 }}></Card>
-                    </Col>
-
-                    <Col span={6}>
-                        <Card style={{ width: 100 }}></Card>
-                    </Col>
-                    <Col span={6}>
-                        <Card style={{ width: 100 }}></Card>
-                    </Col>
-                    <Col span={6}>
-                        <Card style={{ width: 100 }}></Card>
-                    </Col>
-
-                    <Col span={6}>
-                        <Card style={{ width: 100 }}></Card>
-                    </Col>
-
-                    <Col span={6}>
-                        <Card style={{ width: 100 }}></Card>
-                    </Col>
-                </Row> */}
 
             <Pagination>
                 {Array.isArray(books) && books.length > 8 && (

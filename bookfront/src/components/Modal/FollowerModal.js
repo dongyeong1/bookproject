@@ -3,12 +3,7 @@ import { Modal, List, Avatar, Button } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { REMOVE_FOLLOWER_REQUEST } from "../../reducer";
 import styled from "styled-components";
-import {
-    SearchOutlined,
-    CaretRightOutlined,
-    CaretLeftOutlined,
-    LoadingOutlined,
-} from "@ant-design/icons";
+import { CaretRightOutlined, CaretLeftOutlined } from "@ant-design/icons";
 import ReactPaginate from "react-paginate";
 
 const Pagination = styled.div`

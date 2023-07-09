@@ -20,13 +20,11 @@ import {
 } from "./LoginToken";
 
 const NavWrapper = styled.div`
-    // position: relative;
     display: flex;
     justify-content: space-between;
     align-items: center;
 
-    border: 20 //
-        .cuaAeS {
+    .cuaAeS {
         height: 300px;
     }
     border-bottom: 1px solid black;
@@ -78,6 +76,11 @@ const NavWrapper = styled.div`
     .nav_menu > li:hover {
         background-color: #457abf;
         border-radius: 10px;
+        a > .sc,
+        a > .rv,
+        a > .mp {
+            color: white;
+        }
     }
 
     .sc:hover {
@@ -92,8 +95,12 @@ const NavWrapper = styled.div`
 
     .menuactive > li:hover {
         background-color: #457abf;
-
         border-radius: 10px;
+        a > .sc,
+        a > .rv,
+        a > .mp {
+            color: white;
+        }
     }
 
     .nav_ham {

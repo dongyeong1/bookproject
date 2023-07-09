@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useCallback, useState } from "react";
 import { Input, Button, Rate, Modal, Form, Card } from "antd";
 import { useDispatch, useSelector } from "react-redux";
@@ -117,30 +116,6 @@ const PostEditModal = ({ editModal, setEditModal, post }) => {
         });
     });
 
-    const br = (text) => {
-        console.log("asdasdas", text);
-        if (text.length > 20) {
-            const a = text.substr(0, 20);
-            const b = text.substr(20);
-            const c = a + "\n" + b;
-            return c;
-        } else {
-            return text;
-        }
-    };
-
-    const textCut = (txt, len, lastTxt) => {
-        if (len == "" || len == null) {
-            len = 20;
-        }
-        if (lastTxt == "" || lastTxt == null) {
-            lastTxt = "...";
-        }
-        if (txt.length > len) {
-            txt = txt.substr(0, len) + lastTxt;
-        }
-        return txt;
-    };
     return (
         <div>
             {post && (

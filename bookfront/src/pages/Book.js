@@ -1,6 +1,4 @@
-import { Button, Col, Empty, List, Modal, Row, Typography } from "antd";
-// import Card from 'antd/lib/card/Card'
-import { Card } from "antd";
+import { Button, Empty, List } from "antd";
 import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
@@ -59,6 +57,10 @@ const ButtonWrapper = styled.div`
     }
 `;
 
+const Wrapper = styled.div`
+    margin-left: auto;
+    margin-right: 10px;
+`;
 const EmptyWrapper = styled.div`
     margin-top: 50px;
 `;
@@ -93,7 +95,25 @@ const Pagination = styled.div`
     }
 `;
 
-const Lists = styled(List)``;
+const ImageWrapper = styled.div`
+    & > img {
+        width: 220px;
+        margin-left: 20px;
+        margin-top: 20px;
+    }
+`;
+const Lists = styled(List)`
+    margin-left: 80px;
+    .list > .ant-list-item > h2 {
+        margin-top: 10px;
+    }
+    .list > .ant-list-item > div {
+        margin-right: "auto";
+        margin-left: 20px;
+        width: 500px;
+    }
+`;
+
 const Book = () => {
     const [dateButtonType, setDateButtonType] = useState("primary");
     const [rateButtonType, setRateButtonType] = useState("");
@@ -177,68 +197,30 @@ const Book = () => {
     return (
         <div>
             <CardWrapper>
-                <div>
-                    <img
-                        className="img"
-                        src={book && book[0].image}
-                        style={{ width: 220, marginLeft: 20, marginTop: 20 }}
-                    ></img>
-                </div>
+                <ImageWrapper>
+                    <img className="img" src={book && book[0].image}></img>
+                </ImageWrapper>
                 {book && (
                     <Lists
                         itemLayout="horizontal"
-                        style={{ marginLeft: 80 }}
                         dataSource={book}
                         renderItem={(item) => (
                             <div className="list">
                                 <List.Item>
-                                    <h2 style={{ marginTop: 10 }}>제목</h2>
-                                    <div
-                                        style={{
-                                            marginRight: "auto",
-                                            marginLeft: 20,
-
-                                            width: 500,
-                                        }}
-                                    >
-                                        {textCut(item.title, 50, "...")}
-                                    </div>
+                                    <h2>제목</h2>
+                                    <div>{textCut(item.title, 50, "...")}</div>
                                 </List.Item>
                                 <List.Item>
-                                    <h2 style={{ marginTop: 10 }}>저자</h2>
-                                    <div
-                                        style={{
-                                            marginRight: "auto",
-                                            marginLeft: 20,
-                                            width: 500,
-                                        }}
-                                    >
-                                        {item.author}
-                                    </div>
+                                    <h2>저자</h2>
+                                    <div>{item.author}</div>
                                 </List.Item>
                                 <List.Item>
-                                    <h2 style={{ marginTop: 10 }}>가격</h2>
-                                    <div
-                                        style={{
-                                            marginRight: "auto",
-                                            marginLeft: 20,
-                                            width: 500,
-                                        }}
-                                    >
-                                        {item.discount}
-                                    </div>
+                                    <h2>가격</h2>
+                                    <div>{item.discount}</div>
                                 </List.Item>
                                 <List.Item>
-                                    <h2 style={{ marginTop: 10 }}>출판</h2>
-                                    <div
-                                        style={{
-                                            marginRight: "auto",
-                                            marginLeft: 20,
-                                            width: 500,
-                                        }}
-                                    >
-                                        {item.publisher}
-                                    </div>
+                                    <h2>출판</h2>
+                                    <div>{item.publisher}</div>
                                 </List.Item>
                             </div>
                         )}
@@ -253,7 +235,7 @@ const Book = () => {
 
             {posts && (
                 <ButtonWrapper>
-                    <div style={{ marginLeft: "auto", marginRight: 10 }}>
+                    <Wrapper>
                         <Button
                             type={dateButtonType}
                             size="large"
@@ -270,7 +252,7 @@ const Book = () => {
                         >
                             평점순
                         </Button>
-                    </div>
+                    </Wrapper>
                 </ButtonWrapper>
             )}
             {posts ? (

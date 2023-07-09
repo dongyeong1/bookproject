@@ -1,10 +1,8 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { Modal } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
-import { NAVER_ACCESS_TOKEN, NAVER_TOKEN_TYPE } from "../components/LoginToken";
-import { instance } from "../sagas";
+
 import { useDispatch, useSelector } from "react-redux";
 import { NAVER_TOKEN_LOGIN_REQUEST } from "../reducer";
 

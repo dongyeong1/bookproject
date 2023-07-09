@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Button, Card } from "antd";
 import styled from "styled-components";
 
@@ -10,6 +10,13 @@ const Cards = styled(Card)`
     .ant-card-meta-description {
         border-radius: 30px;
         margin-left: 80px;
+    }
+    .ant-card-meta
+        > .ant-card-meta-detail
+        > .ant-card-meta-description
+        > .ant-btn {
+        border-radius: 20px;
+        margin-top: 30px;
     }
 `;
 
@@ -39,7 +46,6 @@ const BookImageSelect = ({ showModal, searchedBook }) => {
                         title={searchedBook.title}
                         description={
                             <Button
-                                style={{ borderRadius: 20, marginTop: 30 }}
                                 type="primary"
                                 size="large"
                                 onClick={showModal}

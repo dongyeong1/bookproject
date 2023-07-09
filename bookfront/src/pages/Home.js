@@ -1,5 +1,5 @@
 import React, { useCallback, useState, useEffect } from "react";
-import { Input, Space } from "antd";
+import { Input } from "antd";
 import styled from "styled-components";
 import { SearchOutlined } from "@ant-design/icons";
 import {
@@ -26,11 +26,24 @@ const SearchWrapper = styled(Input)`
 `;
 
 const ImageWrapper = styled.div`
+    & > img {
+        width: 500px;
+    }
     margin-top: 120px;
     @media screen and (max-width: 700px) {
         margin-top: 25px;
     }
 `;
+
+const ContentWrpper = styled.div`
+    position: "relative";
+    width: 100%;
+    height: 0;
+    padding-bottom: 51%;
+    overflow: "hidden";
+    text-align: "center";
+`;
+
 const Home = () => {
     const dispatch = useDispatch();
 
@@ -71,36 +84,9 @@ const Home = () => {
     }, []);
 
     return (
-        <div
-            style={{
-                position: "relative",
-                width: "100%",
-                height: 0,
-                paddingBottom: "51%",
-                overflow: "hidden",
-                textAlign: "center",
-            }}
-        >
-            {/* <main
-                style={{
-                    backgroundImage: `url("img/bookimage.png")`,
-                    height: 100,
-                }}
-            >
-                as
-            </main> */}
-            {/* <img
-                style={{
-                    position: "absolute",
-                    top: 0,
-                    left: 0,
-                    width: "100%",
-                    height: "100%",
-                }}
-                src="img/bookimage.png"
-            ></img> */}
+        <ContentWrpper>
             <ImageWrapper>
-                <img src="img/logo.png" width="500"></img>
+                <img src="img/logo.png"></img>
             </ImageWrapper>
             <div>
                 <SearchWrapper
@@ -111,7 +97,7 @@ const Home = () => {
                     onPressEnter={bookSearch}
                 />
             </div>
-        </div>
+        </ContentWrpper>
     );
 };
 

@@ -62,11 +62,11 @@ const ResultWrapper = styled.div`
 `;
 
 const ContetnWrapper = styled.div`
+    margin-bottom: 10px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    margin-top: 120;
     margin-right: auto;
 `;
 
@@ -81,6 +81,14 @@ const EmptyWrapper = styled.div`
     margin-top: 10px;
 `;
 
+const TitleWrapper = styled.div`
+    margin-left: 20px;
+`;
+
+const SpinWrapper = styled.div`
+    width: 100px;
+    margin: 50px auto;
+`;
 const BookSearchFormModal = ({ setModal, modal, setSearchedBook }) => {
     const [bookName, setBookName] = useState("");
     const [showComponent, setShowComponent] = useState(false);
@@ -175,16 +183,15 @@ const BookSearchFormModal = ({ setModal, modal, setSearchedBook }) => {
                 />
                 <ResultWrapper>
                     {showComponent && !books ? (
-                        <div style={{ width: 100, margin: "30px auto" }}>
+                        <SpinWrapper>
                             <Spin indicator={Icon}></Spin>
-                        </div>
+                        </SpinWrapper>
                     ) : null}
                     {Array.isArray(books) ? (
                         books
                             .slice(pagesVisited, pagesVisited + PerPage)
                             .map((v) => (
                                 <ContetnWrapper
-                                    style={{ marginBottom: 10 }}
                                     onClick={imageClick(
                                         v.title,
                                         v.isbn,
@@ -192,9 +199,7 @@ const BookSearchFormModal = ({ setModal, modal, setSearchedBook }) => {
                                     )}
                                 >
                                     <img src={v.image} width="50px"></img>
-                                    <div style={{ marginLeft: 20 }}>
-                                        {v.title}
-                                    </div>
+                                    <TitleWrapper>{v.title}</TitleWrapper>
                                 </ContetnWrapper>
                             ))
                     ) : books === "검색결과없음" ? (
