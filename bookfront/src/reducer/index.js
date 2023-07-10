@@ -297,7 +297,7 @@ const rootReducer = (state = initState, action) =>
                     draft.user = action.data;
                 } else {
                     draft.user = action.data;
-                    draft.user.posts = null;
+                    draft.user.Posts = null;
                 }
                 draft.loadMyInfoSuceess = true;
                 break;
