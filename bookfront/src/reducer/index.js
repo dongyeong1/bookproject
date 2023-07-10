@@ -391,7 +391,7 @@ const rootReducer = (state = initState, action) =>
                 draft.addPostSuccess = true;
                 draft.post = action.data;
                 draft.user.Posts.unshift(action.data);
-                draft.posts.unshift(action.data);
+                draft.posts = action.data;
                 break;
             case ADD_POST_FAIL:
                 draft.addPostError = "err";
