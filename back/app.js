@@ -20,9 +20,6 @@ if (process.env.NODE_ENV === "production") {
             credentials: true,
         })
     );
-    app.get("/", (req, res) => {
-        res.send("production");
-    });
 } else {
     app.use(
         cors({
