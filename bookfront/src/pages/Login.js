@@ -140,7 +140,13 @@ const Login = () => {
 
     return (
         <div>
-            <InputWrapper>
+            <KakaoLoginWrapper>
+                <KakaoLogin></KakaoLogin>
+            </KakaoLoginWrapper>
+            {/* <NaverLoginWrapper>
+                    <NaverLogin></NaverLogin>
+                </NaverLoginWrapper> */}
+            {/* <InputWrapper>
                 <Input
                     ref={inputRef}
                     type="email"
@@ -172,19 +178,18 @@ const Login = () => {
                 >
                     로그인
                 </Buttons>
-                {/* <NaverLoginWrapper>
-                    <NaverLogin></NaverLogin>
-                </NaverLoginWrapper> */}
-                <KakaoLoginWrapper>
-                    <KakaoLogin></KakaoLogin>
-                </KakaoLoginWrapper>
+               
+             
             </InputWrapper>
+
+
+        
             <SignUpWrapper>
                 아직 회원이 아니라면?
                 <Link to="/signup">
                     <a> 회원가입</a>
                 </Link>
-            </SignUpWrapper>
+            </SignUpWrapper> */}
         </div>
     );
 };

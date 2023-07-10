@@ -311,7 +311,7 @@ const TopLayout = ({ children }) => {
                     ) : (
                         <Link to="/login">
                             <span style={{ fontSize: 22, fontWeight: 600 }}>
-                                로그인/회원가입
+                                로그인
                             </span>
                         </Link>
                     )}
