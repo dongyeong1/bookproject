@@ -140,12 +140,15 @@ const Login = () => {
 
     return (
         <div>
-            <KakaoLoginWrapper>
-                <KakaoLogin></KakaoLogin>
-            </KakaoLoginWrapper>
-            {/* <NaverLoginWrapper>
+            <InputWrapper>
+                <KakaoLoginWrapper>
+                    <KakaoLogin></KakaoLogin>
+                </KakaoLoginWrapper>
+
+                {/* <NaverLoginWrapper>
                     <NaverLogin></NaverLogin>
                 </NaverLoginWrapper> */}
+            </InputWrapper>
             {/* <InputWrapper>
                 <Input
                     ref={inputRef}
