@@ -172,9 +172,9 @@ const Login = () => {
                 >
                     로그인
                 </Buttons>
-                <NaverLoginWrapper>
+                {/* <NaverLoginWrapper>
                     <NaverLogin></NaverLogin>
-                </NaverLoginWrapper>
+                </NaverLoginWrapper> */}
                 <KakaoLoginWrapper>
                     <KakaoLogin></KakaoLogin>
                 </KakaoLoginWrapper>
