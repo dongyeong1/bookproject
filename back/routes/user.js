@@ -214,6 +214,7 @@ router.post("/naverlogin", async (req, res) => {
 router.get("/", async (req, res, next) => {
     try {
         if (req.user) {
+            console.log("qqqqqqq", req.user);
             const user = await User.findOne({
                 where: { id: req.user.id },
             });
