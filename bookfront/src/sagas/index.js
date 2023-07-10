@@ -303,7 +303,7 @@ function* unlikePost(action) {
 }
 
 function loadMyInfoAPI() {
-    return instance.get("/user");
+    return instance.get("/user/myinfo");
 }
 
 function* loadMyInfo() {

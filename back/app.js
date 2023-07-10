@@ -27,9 +27,6 @@ if (process.env.NODE_ENV === "production") {
             credentials: true,
         })
     );
-    app.get("/", (req, res) => {
-        res.send("dev");
-    });
 }
 
 app.use(express.json()); //axios로 데이터보냃때

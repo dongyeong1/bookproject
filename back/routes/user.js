@@ -211,7 +211,7 @@ router.post("/naverlogin", async (req, res) => {
     console.log(res);
 });
 
-router.get("/", async (req, res, next) => {
+router.get("/myinfo", async (req, res, next) => {
     try {
         console.log("qqqqqqq", req.user);
 
