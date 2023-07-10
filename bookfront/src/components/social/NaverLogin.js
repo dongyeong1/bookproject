@@ -7,7 +7,7 @@ const NaverLogin = () => {
         "https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=" +
         client_id +
         "&redirect_uri=" +
-        encodeURI("http://13.209.99.236/NaverOauth") +
+        encodeURI("http://52.91.97.66/NaverOauth") +
         "&state=" +
         Math.random().toString(36).substr(3, 14);
 
