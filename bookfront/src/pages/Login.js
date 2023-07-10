@@ -80,9 +80,9 @@ const Login = () => {
         });
     };
 
-    useEffect(() => {
-        inputRef.current.focus();
-    }, []);
+    // useEffect(() => {
+    //     inputRef.current.focus();
+    // }, []);
     useEffect(() => {
         if (user) {
             navigate("/");
