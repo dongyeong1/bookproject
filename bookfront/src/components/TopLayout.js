@@ -214,7 +214,6 @@ const TopLayout = ({ children }) => {
 
     const modalHandle = useCallback(() => {
         if (!user) {
-            console.log("asdasd");
             loginModal();
         } else {
             dispatch({

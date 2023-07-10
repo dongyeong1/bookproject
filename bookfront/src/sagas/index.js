@@ -467,7 +467,6 @@ function NaverLoginAPI() {
 function* naverLogin(action) {
     try {
         const result = yield call(NaverLoginAPI, action.data);
-        console.log("sagadata", result);
         yield put({
             type: NAVER_LOGIN_SUCCESS,
             data: result.data,
@@ -494,7 +493,6 @@ function* naverTokenLogin(action) {
         );
         sessionStorage.setItem("naverlogin-token-type", result.data.token_type);
 
-        console.log("sagadata", result);
         yield put({
             type: NAVER_TOKEN_LOGIN_SUCCESS,
             data: result.data,
@@ -509,7 +507,6 @@ function* naverTokenLogin(action) {
 }
 
 function kakaoTokenLoginAPI(data) {
-    console.log("asdasdasdasdasdasd", data);
     return instance.post("/user/kakaotokenlogin", data);
 }
 
@@ -522,7 +519,6 @@ function* kakaoTokenLogin(action) {
         );
         sessionStorage.setItem("kakaologin-token-type", result.data.token_type);
 
-        console.log("sagadata", result);
         yield put({
             type: KAKAO_TOKEN_LOGIN_SUCCESS,
             data: result.data,
