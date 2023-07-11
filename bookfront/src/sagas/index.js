@@ -29,6 +29,8 @@ import {
     LOG_OUT_FAILURE,
     LOG_OUT_REQUEST,
     LOG_OUT_SUCCESS,
+    MODAL_SEARCH_BOOK_REQUEST,
+    MODAL_SEARCH_BOOK_SUCCESS,
     NAVER_LOGIN_FAIL,
     NAVER_LOGIN_REQUEST,
     NAVER_LOGIN_SUCCESS,
@@ -91,6 +93,24 @@ function* searchBook(action) {
         const result = yield call(searchBookAPI, action.data);
         yield put({
             type: SEARCH_BOOK_SUCCESS,
+            data: result.data.items,
+        });
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+function modalsearchBookAPI(data) {
+    return instance.post("/user/booksearch", {
+        bookname: data,
+    });
+}
+
+function* modalsearchBook(action) {
+    try {
+        const result = yield call(modalsearchBookAPI, action.data);
+        yield put({
+            type: MODAL_SEARCH_BOOK_SUCCESS,
             data: result.data.items,
         });
     } catch (err) {
@@ -653,6 +673,10 @@ function* watchremoveFollower() {
 function* watchFollowUserInfo() {
     yield takeLatest(FOLLOW_USER_INFO_REQUEST, followUserInfo);
 }
+
+function* watchmodalSearchBook() {
+    yield takeLatest(MODAL_SEARCH_BOOK_REQUEST, modalsearchBook);
+}
 export default function* rootSaga() {
     yield all([
         fork(watchLoadMyInfo),
@@ -677,5 +701,6 @@ export default function* rootSaga() {
         fork(watchKakaoTokenLogin),
         fork(watchremoveFollower),
         fork(watchFollowUserInfo),
+        fork(watchmodalSearchBook),
     ]);
 }
