@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
     BOOKS_REMOVE_REQUEST,
     MODAL_SEARCH_BOOK_REMOVE,
+    MODAL_SEARCH_BOOK_REQUEST,
     SEARCH_BOOK_REMOVE,
     SEARCH_BOOK_REQUEST,
 } from "../../reducer";
@@ -107,7 +108,7 @@ const BookSearchFormModal = ({ setModal, modal, setSearchedBook }) => {
 
     const bookSearch = useCallback(() => {
         dispatch({
-            type: SEARCH_BOOK_REQUEST,
+            type: MODAL_SEARCH_BOOK_REQUEST,
             data: bookName,
         });
         setShowComponent(true);
@@ -115,7 +116,7 @@ const BookSearchFormModal = ({ setModal, modal, setSearchedBook }) => {
         setTimeout(() => {
             setShowComponent(true);
         }, 100);
-    }, [bookName, books, showComponent]);
+    }, [bookName, modalBooks, showComponent]);
 
     const imageClick = useCallback(
         (title, isbn, image) => () => {
@@ -140,11 +141,6 @@ const BookSearchFormModal = ({ setModal, modal, setSearchedBook }) => {
         });
     }, [modal]);
 
-    useEffect(() => {
-        if (books) {
-        }
-    }, [books]);
-
     //paginate
 
     const [pageNumber, setPageNumber] = useState(0);
@@ -152,7 +148,7 @@ const BookSearchFormModal = ({ setModal, modal, setSearchedBook }) => {
     const PerPage = 5;
     const pagesVisited = pageNumber * PerPage;
 
-    const pageCount = Math.ceil(books && books.length / PerPage);
+    const pageCount = Math.ceil(modalBooks && modalBooks.length / PerPage);
 
     const changePage = ({ selected }) => {
         setPageNumber(selected);
