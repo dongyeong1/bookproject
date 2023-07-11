@@ -3,6 +3,7 @@ import { Modal, Input, Empty, Spin } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import {
     BOOKS_REMOVE_REQUEST,
+    MODAL_SEARCH_BOOK_REMOVE,
     SEARCH_BOOK_REMOVE,
     SEARCH_BOOK_REQUEST,
 } from "../../reducer";
@@ -102,7 +103,7 @@ const BookSearchFormModal = ({ setModal, modal, setSearchedBook }) => {
 
     const dispatch = useDispatch();
 
-    const { books } = useSelector((state) => state);
+    const { books, modalBooks } = useSelector((state) => state);
 
     const bookSearch = useCallback(() => {
         dispatch({
@@ -120,7 +121,7 @@ const BookSearchFormModal = ({ setModal, modal, setSearchedBook }) => {
         (title, isbn, image) => () => {
             setSearchedBook({ title, isbn, image });
             dispatch({
-                type: SEARCH_BOOK_REMOVE,
+                type: MODAL_SEARCH_BOOK_REMOVE,
             });
             setBookName("");
             setModal(false);
@@ -181,13 +182,13 @@ const BookSearchFormModal = ({ setModal, modal, setSearchedBook }) => {
                     onPressEnter={bookSearch}
                 />
                 <ResultWrapper>
-                    {showComponent && !books ? (
+                    {showComponent && !modalBooks ? (
                         <SpinWrapper>
                             <Spin indicator={Icon}></Spin>
                         </SpinWrapper>
                     ) : null}
-                    {Array.isArray(books) ? (
-                        books
+                    {Array.isArray(modalBooks) ? (
+                        modalBooks
                             .slice(pagesVisited, pagesVisited + PerPage)
                             .map((v) => (
                                 <ContetnWrapper
@@ -201,14 +202,14 @@ const BookSearchFormModal = ({ setModal, modal, setSearchedBook }) => {
                                     <TitleWrapper>{v.title}</TitleWrapper>
                                 </ContetnWrapper>
                             ))
-                    ) : books === "검색결과없음" ? (
+                    ) : modalBooks === "검색결과없음" ? (
                         <EmptyWrapper>
                             <Empty description="검색결과없음" />
                         </EmptyWrapper>
                     ) : null}
                 </ResultWrapper>
 
-                {Array.isArray(books) && books.length > 8 && (
+                {Array.isArray(modalBooks) && modalBooks.length > 8 && (
                     <Pagination>
                         <ReactPaginate
                             previousLabel={<CaretLeftOutlined />}

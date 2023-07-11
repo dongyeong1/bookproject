@@ -5,6 +5,7 @@ const initState = {
     posts: null,
     post: null,
     user: null,
+    modalBooks: null,
     followUserPage: null,
     signUpData: null,
     ratePostLoading: false,
@@ -13,6 +14,9 @@ const initState = {
     searchbookLoading: false,
     searchbookSuccess: false,
     seachbookError: null,
+    modalsearchbookLoading: false,
+    modalsearchbookSuccess: false,
+    modalseachbookError: null,
     signupLoading: false,
     signupSuccess: false,
     signupError: null,
@@ -158,9 +162,35 @@ export const FOLLOW_USER_INFO_REQUEST = "FOLLOW_USER_INFO_REQUEST";
 export const FOLLOW_USER_INFO_SUCCESS = "FOLLOW_USER_INFO_SUCCESS";
 export const FOLLOW_USER_INFO_FAIL = "FOLLOW_USER_INFO_FAIL";
 
+export const MODAL_SEARCH_BOOK_REQUEST = "MODAL_SEARCH_BOOK_REQUEST";
+export const MODAL_SEARCH_BOOK_SUCCESS = "MODAL_SEARCH_BOOK_SUCCESS";
+export const MODAL_SEARCH_BOOK_FAIL = "MODAL_SEARCH_BOOK_FAIL";
+
+export const MODAL_SEARCH_BOOK_REMOVE = "MODAL_SEARCH_BOOK_REMOVE";
+
 const rootReducer = (state = initState, action) =>
     produce(state, (draft) => {
         switch (action.type) {
+            case MODAL_SEARCH_BOOK_REMOVE:
+                draft.modalBooks = null;
+                break;
+            case MODAL_SEARCH_BOOK_REQUEST:
+                draft.modalBooks = null;
+                draft.modalsearchbookLoading = true;
+                draft.modalsearchbookSuccess = false;
+                break;
+            case MODAL_SEARCH_BOOK_SUCCESS:
+                draft.modalsearchbookLoading = false;
+                draft.modalsearchbookSuccess = true;
+                if (action.data[0]) {
+                    draft.modalBooks = action.data;
+                } else {
+                    draft.modalBooks = "검색결과없음";
+                }
+                break;
+            case MODAL_SEARCH_BOOK_FAIL:
+                draft.modalsearchbookError = "err";
+                break;
             case FOLLOW_USER_INFO_REQUEST:
                 draft.followUserInfoLoading = true;
                 draft.followUserInfoError = null;
@@ -350,7 +380,7 @@ const rootReducer = (state = initState, action) =>
                 }
                 break;
             case SEARCH_BOOK_FAIL:
-                draft.seachbookError = "err";
+                draft.searchbookError = "err";
                 break;
             case SIGNUP_REQUEST:
                 draft.signupLoading = true;
