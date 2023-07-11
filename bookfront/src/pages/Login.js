@@ -47,10 +47,12 @@ const ErrorWrapper = styled.div`
 `;
 
 const ImageWrapper = styled.div`
+    width: 320px;
+
     & > img {
-        width: 500px;
+        width: 300px;
     }
-    margin-top: 80px;
+    margin-top: 70px;
     margin-right: 30px;
 `;
 
