@@ -14,7 +14,6 @@ const NaverLogin = () => {
     return (
         <a href={naver_api_url}>
             <img height="60" width="250" src="img/naverLogin.png" />
-            {"네이버로그인 심사요청중"}
         </a>
     );
 };

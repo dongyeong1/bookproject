@@ -50,10 +50,8 @@ const ImageWrapper = styled.div`
     & > img {
         width: 500px;
     }
-    margin-top: 120px;
-    @media screen and (max-width: 700px) {
-        margin-top: 25px;
-    }
+    margin-top: 80px;
+    margin-right: 30px;
 `;
 
 const Login = () => {
