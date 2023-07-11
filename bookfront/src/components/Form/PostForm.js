@@ -12,6 +12,7 @@ import BookImageSelect from "../BookImageSelect";
 import { Modal } from "antd";
 import styled from "styled-components";
 import { KAKAO_ACCESS_TOKEN, NAVER_ACCESS_TOKEN } from "../LoginToken";
+import { useNavigate } from "react-router-dom";
 
 const ErrorContent = styled.div`
     color: red;
@@ -63,11 +64,10 @@ const ContentWrapper = styled.div`
         margin-left: 150px;
     }
 `;
-const TextArea = styled(Input.TextArea)``;
 
 const PostForm = ({ reviewSetModal }) => {
     const { post, user, addPostLoading } = useSelector((state) => state);
-
+    const navigate = useNavigate();
     const [imageError, setImageError] = useState(false);
     const [titleError, setTitleError] = useState(false);
     const [rateError, setRateError] = useState(false);
@@ -158,7 +158,7 @@ const PostForm = ({ reviewSetModal }) => {
                     bookname: searchedBook.title,
                 },
             });
-            dispatch({});
+            navigate("/");
         } else {
             if (!text) {
                 setTextError(true);
