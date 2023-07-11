@@ -258,7 +258,7 @@ const TopLayout = ({ children }) => {
                     ></img>
                 </div>
                 <ul className={menuActive ? "menuactive" : "nav_menu"}>
-                    <li>
+                    {/* <li>
                         <Link to="/booksearch">
                             <span
                                 onClick={bookRemove}
@@ -268,7 +268,7 @@ const TopLayout = ({ children }) => {
                                 책검색
                             </span>
                         </Link>
-                    </li>
+                    </li> */}
                     <li>
                         <Link>
                             {" "}
