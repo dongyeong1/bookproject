@@ -96,7 +96,6 @@ const BookSearchFormModal = ({ setModal, modal, setSearchedBook }) => {
     const onChangeBook = useCallback(
         (e) => {
             setBookName(e.target.value);
-            console.log(e.target.value);
         },
         [bookName]
     );

@@ -46,6 +46,16 @@ const ErrorWrapper = styled.div`
     margin-top: 10px;
 `;
 
+const ImageWrapper = styled.div`
+    & > img {
+        width: 500px;
+    }
+    margin-top: 120px;
+    @media screen and (max-width: 700px) {
+        margin-top: 25px;
+    }
+`;
+
 const Login = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -118,7 +128,6 @@ const Login = () => {
     }, [loginError]);
 
     const onSubmit = useCallback(() => {
-        console.log("asdsa");
         if (email && password) {
             dispatch({
                 type: LOGIN_REQUEST,
@@ -141,13 +150,16 @@ const Login = () => {
     return (
         <div>
             <InputWrapper>
+                <ImageWrapper>
+                    <img src="img/logo.png"></img>
+                </ImageWrapper>
                 <KakaoLoginWrapper>
                     <KakaoLogin></KakaoLogin>
                 </KakaoLoginWrapper>
-
-                {/* <NaverLoginWrapper>
+                <NaverLoginWrapper>
                     <NaverLogin></NaverLogin>
-                </NaverLoginWrapper> */}
+                </NaverLoginWrapper>
+                <div>네이버로그인은 검수요청중입니다!</div>
             </InputWrapper>
             {/* <InputWrapper>
                 <Input
