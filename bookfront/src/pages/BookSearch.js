@@ -122,9 +122,8 @@ const BookSearch = () => {
     );
 
     useEffect(() => {
-        if (books) {
-        }
-    }, [books]);
+        setShowComponent(true);
+    }, []);
 
     const bookSearch = useCallback(() => {
         dispatch({
