@@ -50,7 +50,7 @@ const ImageWrapper = styled.div`
     width: 320px;
 
     & > img {
-        width: 300px;
+        width: 320px;
     }
     margin-top: 70px;
     margin-bottom: 30px;
