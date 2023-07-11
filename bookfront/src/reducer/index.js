@@ -292,7 +292,6 @@ const rootReducer = (state = initState, action) =>
                 break;
             case LOAD_MY_INFO_SUCCESS:
                 draft.loadMyInfoLoading = false;
-                console.log("asdasdasd", action.data);
                 if (action.data.Posts[0]) {
                     draft.user = action.data;
                 } else {
@@ -337,6 +336,7 @@ const rootReducer = (state = initState, action) =>
                 break;
 
             case SEARCH_BOOK_REQUEST:
+                draft.books = null;
                 draft.searchbookLoading = true;
                 draft.searchbookSuccess = false;
                 break;
