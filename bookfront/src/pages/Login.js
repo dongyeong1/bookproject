@@ -53,7 +53,7 @@ const ImageWrapper = styled.div`
         width: 300px;
     }
     margin-top: 70px;
-    margin-right: 30px;
+    margin-bottom: 30px;
 `;
 
 const Login = () => {
