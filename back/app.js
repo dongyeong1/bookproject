@@ -16,7 +16,7 @@ const app = express();
 if (process.env.NODE_ENV === "production") {
     app.use(
         cors({
-            origin: "http://44.204.159.141",
+            origin: "http://54.205.119.187",
             credentials: true,
         })
     );
@@ -48,7 +48,7 @@ app.use(
         cookie: {
             httpOnly: true,
             secure: false,
-            domain: process.env.NODE_ENV === "production" && ".44.204.159.141",
+            domain: process.env.NODE_ENV === "production" && ".54.205.119.187",
         },
     })
 );

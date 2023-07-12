@@ -434,7 +434,7 @@ router.post("/bookload", async (req, res) => {
 
 router.post("/navertokenlogin", async (req, res) => {
     try {
-        let redirectURI = encodeURI("http://52.91.97.66/user/naverlogin");
+        let redirectURI = encodeURI("http://54.172.244.170/user/naverlogin");
 
         let api_url =
             "https://nid.naver.com/oauth2.0/token?grant_type=authorization_code&client_id=" +
@@ -562,7 +562,7 @@ router.post("/kakaotokenlogin", async (req, res) => {
     try {
         console.log("reqrqrqerqerqer", req.body);
         // let redirectURI = encodeURI("http://43.201.65.83/user/kakaotokenlogin");
-        let redirectURI = encodeURI("http://44.204.159.141/KakaoOauth");
+        let redirectURI = encodeURI("http://54.205.119.187/KakaoOauth");
 
         let api_url =
             "https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id=" +

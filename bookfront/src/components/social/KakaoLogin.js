@@ -1,7 +1,7 @@
 import React from "react";
 
 const KakaoLogin = () => {
-    let redirect_uri = "http://44.204.159.141/KakaoOauth";
+    let redirect_uri = "http://54.205.119.187/KakaoOauth";
     let client_id = process.env.REACT_APP_KAKAO_REST_API;
     let kakao_api_url =
         "https://kauth.kakao.com/oauth/authorize?client_id=" +

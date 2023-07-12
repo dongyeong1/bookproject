@@ -73,7 +73,7 @@ import {
 import { useNavigate } from "react-router-dom";
 
 export const instance = axios.create({
-    baseURL: "http://52.91.97.66",
+    baseURL: "http://54.172.244.170",
     withCredentials: true,
 });
 
